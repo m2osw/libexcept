@@ -9,7 +9,7 @@
 #      See the CMake documentation.
 #
 # License:
-#      Copyright (c) 2011-2017 Made to Order Software Corp.
+#      Copyright (c) 2011-2018  Made to Order Software Corp.  All Rights Reserved
 #
 #      http://snapwebsites.org/
 #      contact@m2osw.com
@@ -50,6 +50,7 @@ add_library(${PROJECT_NAME} SHARED
     ${HEADER_FILES}
     version.h.in
     exception.cpp
+    version.cpp
 )
 
 set_target_properties( ${PROJECT_NAME} PROPERTIES

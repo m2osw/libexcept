@@ -6,13 +6,11 @@
 #      Top level project definitions which includes the C++ files and the
 #      header files as required to compile the libexcept class.
 #
-#      TODO: write tests
-#
 # Documentation:
 #      See the CMake documentation.
 #
 # License:
-#      Copyright (c) 2011-2017 Made to Order Software Corp.
+#      Copyright (c) 2011-2018  Made to Order Software Corp.  All Rights Reserved
 #
 #      http://snapwebsites.org/
 #      contact@m2osw.com
