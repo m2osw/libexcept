@@ -8,9 +8,9 @@ Build-Depends: cmake,
     snapcmakemodules (>= 1.0.35.3~xenial)
 Standards-Version: 3.9.4
 Section: libs
-Homepage: http://snapwebsites.org/
+Homepage: https://snapwebsites.org/
 Vcs-Git: https://github.com/m2osw/snapcpp.git
-Vcs-Browser: https://github.com/m2osw/snapcpp/tree/master/contrib
+Vcs-Browser: https://github.com/m2osw/libexcept
 
 Package: libexcept-dev
 Section: libdevel
