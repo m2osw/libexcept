@@ -61,7 +61,7 @@ public:
     stack_trace_t const &       get_stack_trace() const { return f_stack_trace; }
 
 private:
-    stack_trace_t               f_stack_trace;
+    stack_trace_t               f_stack_trace = stack_trace_t();
 
     void                        collect_stack_trace( int const stack_trace_depth );
 };

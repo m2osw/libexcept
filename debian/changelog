@@ -1,3 +1,9 @@
+libexcept (1.0.4.0~xenial) xenial; urgency=high
+
+  * Made code -Weffc++ compatible.
+
+ -- Alexis Wilke <alexis@m2osw.com>  Wed, 25 Jul 2018 19:50:25 -0800
+
 libexcept (1.0.3.3~xenial) xenial; urgency=high
 
   * Bump version to recompile without the -fsanitizer flags.
