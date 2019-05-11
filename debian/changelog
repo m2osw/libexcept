@@ -1,3 +1,11 @@
+libexcept (1.0.5.0~xenial) xenial; urgency=high
+
+  * Added the documentation package to this library.
+  * Fixed the package descriptions. It was referencing libQtCassandra.
+  * Changed the version file to use constexpr instead of static const.
+
+ -- Alexis Wilke <alexis@m2osw.com>  Fri, 27 Jul 2018 00:45:54 -0800
+
 libexcept (1.0.4.1~xenial) xenial; urgency=high
 
   * Bump version to get a recompile on launchpad.

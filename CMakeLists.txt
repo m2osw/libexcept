@@ -66,6 +66,6 @@ include_directories(
 add_subdirectory(cmake)
 add_subdirectory(src)
 #add_subdirectory(tests)
-#add_subdirectory(doc)
+add_subdirectory(doc)
 
 # vim: ts=4 sw=4 et
