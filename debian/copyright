@@ -1,6 +1,6 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: libqtcassandra
-Source: https://sourceforge.net/projects/libqtcassandra/files/
+Upstream-Name: libexcept
+Source: https://github.com/m2osw/libexcept
 
 Files: *
 Copyright: 2011-2017 Alexis Wilke <alexis@m2osw.com>

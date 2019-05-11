@@ -195,5 +195,4 @@ char const * exception_t::what() const throw()
 
 }
 // namespace libexcept
-
 // vim: ts=4 sw=4 et
