@@ -41,6 +41,14 @@
 #include <string>
 #include <vector>
 
+/** \file
+ * \brief Declarations of the exception library.
+ *
+ * This file includes the library exception declarations.
+ *
+ * The strong point of the library is its ability to gather a stack
+ * trace and attach that information to an exception.
+ */
 
 
 namespace libexcept
@@ -52,26 +60,27 @@ class exception_base_t
 public:
     typedef std::vector<std::string>        stack_trace_t;
 
-    static int const            STACK_TRACE_DEPTH = 20;
+    static constexpr int        STACK_TRACE_DEPTH = 20;
 
-                                explicit exception_base_t( int const stack_track_depth = STACK_TRACE_DEPTH );
+                                explicit exception_base_t( int const stack_trace_depth = STACK_TRACE_DEPTH );
 
     virtual                     ~exception_base_t() {}
 
     stack_trace_t const &       get_stack_trace() const { return f_stack_trace; }
+    static stack_trace_t        collect_stack_trace( int const stack_trace_depth = STACK_TRACE_DEPTH );
 
 private:
     stack_trace_t               f_stack_trace = stack_trace_t();
-
-    void                        collect_stack_trace( int const stack_trace_depth );
 };
 
 
-class logic_exception_t : public std::logic_error, public exception_base_t
+class logic_exception_t
+    : public std::logic_error
+    , public exception_base_t
 {
 public:
-                                explicit logic_exception_t( std::string const & what );
-                                explicit logic_exception_t( char const *        what );
+                                explicit logic_exception_t( std::string const & what, int const stack_trace_depth = STACK_TRACE_DEPTH );
+                                explicit logic_exception_t( char const *        what, int const stack_trace_depth = STACK_TRACE_DEPTH );
 
     virtual                     ~logic_exception_t() override {}
 
@@ -79,11 +88,13 @@ public:
 };
 
 
-class exception_t : public std::runtime_error, public exception_base_t
+class exception_t
+    : public std::runtime_error
+    , public exception_base_t
 {
 public:
-                                explicit exception_t( std::string const & what );
-                                explicit exception_t( char const *        what );
+                                explicit exception_t( std::string const & what, int const stack_trace_depth = STACK_TRACE_DEPTH );
+                                explicit exception_t( char const *        what, int const stack_trace_depth = STACK_TRACE_DEPTH );
 
     virtual                     ~exception_t() override {}
 

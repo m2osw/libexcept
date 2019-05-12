@@ -1,11 +1,15 @@
 libexcept (1.0.5.0~xenial) xenial; urgency=high
 
   * Added the documentation package to this library.
-  * Fixed the package descriptions. It was referencing libQtCassandra.
+  * Fixed references to libQtCassandra (copy/paste issue.)
   * Changed the version file to use constexpr instead of static const.
   * Fixed the copyright upstream name and source link.
+  * Fixed the doxygen documentation to make it more complete & detailed.
+  * Made the collect_stack_trace() static again with proper docs.
+  * Added the ability to specify the stack depth in all classes.
+  * Fixed some variable spelling (stack_track_depth -> stack_trace_depth).
 
- -- Alexis Wilke <alexis@m2osw.com>  Fri, 27 Jul 2018 00:45:54 -0800
+ -- Alexis Wilke <alexis@m2osw.com>  Sat, 11 May 2019 16:40:05 -0800
 
 libexcept (1.0.4.1~xenial) xenial; urgency=high
 

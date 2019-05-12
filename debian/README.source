@@ -1,9 +1,8 @@
-libqtcassandra for Debian
--------------------------
+libexcept for Debian
+--------------------
 
-<this file describes information about the source package, see Debian policy
-manual section 4.14. You WILL either need to modify or delete this file>
+This project is part of the Snap! C++ environment.
 
-
-
+This was extracted from the libsnapwebsites to allow all of our contribs
+to use a stack trace whenever an exception is raised.
 
