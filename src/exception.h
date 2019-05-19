@@ -55,19 +55,22 @@ namespace libexcept
 {
 
 
+constexpr int        STACK_TRACE_DEPTH = 20;
+
+typedef std::vector<std::string>        stack_trace_t;
+
+stack_trace_t        collect_stack_trace( int const stack_trace_depth = STACK_TRACE_DEPTH );
+stack_trace_t        collect_stack_trace_with_line_numbers( int const stack_trace_depth = STACK_TRACE_DEPTH );
+
+
 class exception_base_t
 {
 public:
-    typedef std::vector<std::string>        stack_trace_t;
-
-    static constexpr int        STACK_TRACE_DEPTH = 20;
-
                                 explicit exception_base_t( int const stack_trace_depth = STACK_TRACE_DEPTH );
 
     virtual                     ~exception_base_t() {}
 
     stack_trace_t const &       get_stack_trace() const { return f_stack_trace; }
-    static stack_trace_t        collect_stack_trace( int const stack_trace_depth = STACK_TRACE_DEPTH );
 
 private:
     stack_trace_t               f_stack_trace = stack_trace_t();

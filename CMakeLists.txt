@@ -45,8 +45,9 @@ set( CMAKE_AUTOMOC             TRUE )
 
 ## Include support modules
 ##
-find_package( SnapCMakeModules   REQUIRED )
-find_package( SnapDoxygen )
+find_package( SnapCMakeModules REQUIRED )
+find_package( Boost            REQUIRED )
+find_package( SnapDoxygen               )
 
 SnapGetVersion( LIBEXCEPT ${CMAKE_SOURCE_DIR} )
 

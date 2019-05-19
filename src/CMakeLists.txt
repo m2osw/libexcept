@@ -53,6 +53,10 @@ add_library(${PROJECT_NAME} SHARED
     version.cpp
 )
 
+include_directories(
+    ${BOOST_INCLUDE_DIRS}
+)
+
 set_target_properties( ${PROJECT_NAME} PROPERTIES
     VERSION ${LIBEXCEPT_VERSION_MAJOR}.${LIBEXCEPT_VERSION_MINOR}
     SOVERSION ${LIBEXCEPT_VERSION_MAJOR}
