@@ -5,6 +5,7 @@ Build-Depends: cmake,
     debhelper,
     doxygen,
     graphviz,
+    libboost-dev,
     snapcmakemodules (>= 1.0.35.3~xenial)
 Standards-Version: 3.9.4
 Section: libs
