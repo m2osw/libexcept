@@ -59,8 +59,9 @@ constexpr int        STACK_TRACE_DEPTH = 20;
 
 typedef std::vector<std::string>        stack_trace_t;
 
-stack_trace_t        collect_stack_trace( int const stack_trace_depth = STACK_TRACE_DEPTH );
-stack_trace_t        collect_stack_trace_with_line_numbers( int const stack_trace_depth = STACK_TRACE_DEPTH );
+void                set_collect_stack( bool collect_stack );
+stack_trace_t       collect_stack_trace( int const stack_trace_depth = STACK_TRACE_DEPTH );
+stack_trace_t       collect_stack_trace_with_line_numbers( int const stack_trace_depth = STACK_TRACE_DEPTH );
 
 
 class exception_base_t

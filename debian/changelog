@@ -1,9 +1,11 @@
 libexcept (1.1.0.0~xenial) xenial; urgency=high
 
-  * The interface changed again so I'm bumping the minor version.
+  * The interface changed again so I'm bumping the minor version to 1.
   * Added a function that gives us line numbers automatically (but is slow
     so it should only be used in specific debug and not in exceptions.)
   * Made the existing function global (still in the libexcept namespace.)
+  * Added a function to turn off stack trace collection on exceptions.
+  * Moved the documentation package to the "doc" section.
 
  -- Alexis Wilke <alexis@m2osw.com>  Sun, 19 May 2019 01:21:38 -0800
 

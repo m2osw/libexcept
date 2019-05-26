@@ -71,28 +71,38 @@
  * current situation.) Therefore, having a way to immediately discover where
  * the exception occurred by using the libexcept exception classes gives you
  * a way to immediately find out which function raised the exception nearly
- * 99% of the time.
+ * 99% of the time including in the runtime environment of Snap! C++ and
+ * any other project using the libexcept library.
  *
  * \section classes Classes to Derive From
  *
  * This library gives you two exception classes to derive from:
  *
- * \li libexcept::logic_exception_t
+ * \subsection logic_exception libexcept::logic_exception_t
  *
  * Used to raise an exception about logic; although this is often an
  * "emergency" type of error (even worse than a fatal error), we have
  * a definitions for it because we raise many logic errors.
  *
- * \li libexcept::exception_t
+ * Example of a logic error:
+ *
+ * A function is expected to receive two parameters, say both are enumerations.
+ * When the first enumeration is set to `FOO` then the second is expected
+ * to be one of `BAR` or `BAZ`. If the second is set to `NOT_SO_GOOD` instead,
+ * then the function raises a logic error because the programmer made a
+ * mistake and the problem can be fixed by fixing the code (i.e. once the
+ * code is fixed, you should then never see the error again.)
+ *
+ * \subsection runtime_exception libexcept::exception_t
  *
  * Used for most of our exceptions. This is based on the
  * `std::runtime_error` base class.
  *
- * \section collect_stack_trace How to Collect a Stack Trace Anywhere
+ * \section object_stack_trace Collect a Stack Trace Creating an Object
  *
  * You may also use the libexcept::exception_base_t class directly in your
- * class(es) in order to collect a stack trace. The instantiation is enough to
- * get the stack trace and the libexcept::exception_base_t::get_stack_trace()
+ * class(es) in order to collect a stack trace at the time the class is
+ * instantiated. The libexcept::exception_base_t::get_stack_trace()
  * gives you the results.
  *
  * \code
@@ -104,8 +114,10 @@
  * By default we use STACK_TRACE_DEPTH as the number of stings to return
  * in the libexcept::stack_trace_t vector.
  *
+ * \section in_place_stack_trace Collect a Stack Trace Anywhere
+ *
  * Finally, you can directly call the libexcept::collect_stack_trace()
- * function since it is a static function. It gives you a vector of
+ * function since it is a global function. It gives you a vector of
  * strings representing the stack trace.
  *
  * We also offer the libexcept::collect_stack_trace_with_line_numbers()
@@ -116,12 +128,77 @@
  * file concerned by the problem.)
  *
  * \section thread_safety Thread Safety
+ *
+ * The library is thread safe. All the functions are reentrant except
+ * the set_collect_stack(), which is still safe to use, only the
+ * results may not always be exactly as expected.
+ *
+ * In terms of parallelism, the collect_stack_trace_with_line_numbers()
+ * runs some console processes to collect the line number and demangle
+ * the function names. This means that it could be really heavy if many
+ * threads use that function often.
  */
 
 
 
 namespace libexcept
 {
+
+
+namespace
+{
+
+
+/** \brief Global flag to eventually prevent stack trace collection.
+ *
+ * Whenever a libexcept exception is raised, the stack gets collected.
+ * This is very slow if you run a test which is to generate exceptions
+ * over and over again, like 1,000,000 times in a tight loop.
+ *
+ * To make your tests faster we added a general flag which one can use
+ * to collect or not collect the stack trace.
+ *
+ * At some point we may add an option to our command lines/configuration
+ * files to tweak this flag on load. That way any of our daemon can
+ * benefit by not having a stack trace in a production environment unless
+ * requested. Rmember, though, that we use exceptions wisely so they really
+ * only happens when something really bad is detected so it is fairly
+ * safe to keep the collection of the stack trace turned on.
+ */
+bool            g_collect_stack = true;
+
+
+}
+
+
+/** \brief Set a general flag on whether to collect stack traces or not.
+ *
+ * Because collecting the stack trace can be time consuming and once in
+ * a while you may need the highest possible speed including libexcept
+ * exceptions, we offer a flag to avoid all stack collection processing.
+ *
+ * We especially use this feature when running tests because we generate
+ * the exceptions on purpose and do not want to get the stack trace which
+ * is rather useless in this case. We do not yet have any other situations
+ * where we do not want a stack trace.
+ *
+ * By default \p collect_stack is already true so you do not need to change
+ * it on startup.
+ *
+ * \warning
+ * The function itself is not multithread safe. It is unlikely to cause
+ * any serious problems, though. Some threads may have or may be missing
+ * the stack trace, that's all. If you never call this function, all threads
+ * will always include the stack trace. Calling this function before you
+ * create threads will resolve all possible issues (if you do not have
+ * to dynamically change the flag.)
+ *
+ * \param[in] collect_stack  Whether to collect the stack or not.
+ */
+void set_collect_stack( bool collect_stack )
+{
+    g_collect_stack = collect_stack;
+}
 
 
 /** \brief Collect the stack trace in a list of strings.
@@ -142,9 +219,14 @@ namespace libexcept
  * parameter forces the function to return the entire stack trace available.
  *
  * \note
- * This method is static so we can use it anywhere we'd like to get
+ * This function is global so we can use it anywhere we'd like to get
  * a stack trace and not just in exceptions. Very practical in C++
  * to get a stack trace directly in a vector of strings.
+ *
+ * \note
+ * This function is not affected by the g_collect_stack flag. So you can
+ * always collect a stack trace. Only exceptions do not do so automatically
+ * if you set the g_collect_stack flag to false.
  *
  * \important
  * Use the collect_stack_with_line_numbers() to get demangled function
@@ -157,6 +239,7 @@ namespace libexcept
  * \return The vector of strings with the stack trace.
  *
  * \sa collect_stack_trace_with_line_numbers()
+ * \sa set_collect_stack()
  */
 stack_trace_t collect_stack_trace( int stack_trace_depth )
 {
@@ -210,11 +293,17 @@ stack_trace_t collect_stack_trace( int stack_trace_depth )
  * See also the libbacktrace library:
  * https://gcc.gnu.org/viewcvs/gcc/trunk/libbacktrace/
  *
+ * \note
+ * This function is not affected by the g_collect_stack flag. So you can
+ * always collect a stack trace. Only exceptions do not do so automatically
+ * if you set the g_collect_stack flag to false.
+ *
  * \param[in] stack_trace_depth  The number of lines to capture in our
  *                               stack trace.
  * \return The vector of strings with the stack trace.
  *
  * \sa collect_stack_trace()
+ * \sa set_collect_stack()
  */
 stack_trace_t collect_stack_trace_with_line_numbers( int stack_trace_depth )
 {
@@ -462,7 +551,10 @@ stack_trace_t collect_stack_trace_with_line_numbers( int stack_trace_depth )
  */
 exception_base_t::exception_base_t( int const stack_trace_depth )
 {
-    f_stack_trace = collect_stack_trace( stack_trace_depth );
+    if(g_collect_stack)
+    {
+        f_stack_trace = collect_stack_trace( stack_trace_depth );
+    }
 }
 
 

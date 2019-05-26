@@ -34,7 +34,7 @@ Description: Base exception handling for Snap! C++.
  to search for hours.
 
 Package: libexcept-doc
-Section: libdevel
+Section: doc
 Architecture: all
 Depends: ${misc:Depends}
 Description: Documentation for the base exception handling for Snap! C++.
