@@ -27,6 +27,12 @@
 
 project(libexcept_cmake)
 
-install( FILES LibExceptConfig.cmake DESTINATION share/cmake/LibExcept )
+install(
+    FILES
+        LibExceptConfig.cmake
+
+    DESTINATION
+        share/cmake/LibExcept
+)
 
 # vim: ts=4 sw=4 et nocindent
