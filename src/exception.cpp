@@ -298,6 +298,37 @@ stack_trace_t collect_stack_trace( int stack_trace_depth )
  * always collect a stack trace. Only exceptions do not do so automatically
  * if you set the g_collect_stack flag to false.
  *
+ * \todo
+ * I found a piece of code snippet on Catch2 which is used to demangle a C++
+ * name. It is one simple ABI call! We would still need the translations of
+ * the IP address to a function name and line number, though.
+ *
+ * \code
+ * #include "catch.hpp"
+ *
+ * #include <cxxabi.h>
+ * #include <typeinfo>
+ *
+ * CATCH_TRANSLATE_EXCEPTION(std::exception& e) {
+ *   std::string s;
+ *   int status;
+ *
+ *   const char* name = typeid(e).name();
+ *   char* realname = abi::__cxa_demangle(name, 0, 0, &status);
+ *   if(realname) {
+ *     s.append(realname);
+ *   } else {
+ *     s.append(name);
+ *   }
+ *   s.append(": ");
+ *   s.append(e.what());
+ *   free(realname);
+ *   return s;
+ * }
+ * \endcode
+ *
+ * Source: https://github.com/catchorg/Catch2/issues/539
+ *
  * \param[in] stack_trace_depth  The number of lines to capture in our
  *                               stack trace.
  * \return The vector of strings with the stack trace.
@@ -637,6 +668,16 @@ char const * logic_exception_t::what() const throw()
 {
     return std::logic_error::what();
 }
+
+
+
+
+
+
+
+
+
+
 
 
 /** \brief Initialize an exception from a C++ string.

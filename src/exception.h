@@ -67,7 +67,7 @@ stack_trace_t       collect_stack_trace_with_line_numbers( int const stack_trace
 class exception_base_t
 {
 public:
-                                explicit exception_base_t( int const stack_trace_depth = STACK_TRACE_DEPTH );
+    explicit                    exception_base_t( int const stack_trace_depth = STACK_TRACE_DEPTH );
 
     virtual                     ~exception_base_t() {}
 
@@ -83,8 +83,8 @@ class logic_exception_t
     , public exception_base_t
 {
 public:
-                                explicit logic_exception_t( std::string const & what, int const stack_trace_depth = STACK_TRACE_DEPTH );
-                                explicit logic_exception_t( char const *        what, int const stack_trace_depth = STACK_TRACE_DEPTH );
+    explicit                    logic_exception_t( std::string const & what, int const stack_trace_depth = STACK_TRACE_DEPTH );
+    explicit                    logic_exception_t( char const *        what, int const stack_trace_depth = STACK_TRACE_DEPTH );
 
     virtual                     ~logic_exception_t() override {}
 
@@ -97,8 +97,8 @@ class exception_t
     , public exception_base_t
 {
 public:
-                                explicit exception_t( std::string const & what, int const stack_trace_depth = STACK_TRACE_DEPTH );
-                                explicit exception_t( char const *        what, int const stack_trace_depth = STACK_TRACE_DEPTH );
+    explicit                    exception_t( std::string const & what, int const stack_trace_depth = STACK_TRACE_DEPTH );
+    explicit                    exception_t( char const *        what, int const stack_trace_depth = STACK_TRACE_DEPTH );
 
     virtual                     ~exception_t() override {}
 
