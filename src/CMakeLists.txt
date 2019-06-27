@@ -41,14 +41,9 @@ configure_file(
     ${PROJECT_BINARY_DIR}/libexcept/version.h
 )
 
-set( HEADER_FILES
-    exception.h
-    ${PROJECT_BINARY_DIR}/libexcept/version.h
-)
 
 add_library(${PROJECT_NAME} SHARED
-    ${HEADER_FILES}
-    version.h.in
+    demangle.cpp
     exception.cpp
     version.cpp
 )
@@ -57,21 +52,29 @@ include_directories(
     ${BOOST_INCLUDE_DIRS}
 )
 
-set_target_properties( ${PROJECT_NAME} PROPERTIES
-    VERSION ${LIBEXCEPT_VERSION_MAJOR}.${LIBEXCEPT_VERSION_MINOR}
-    SOVERSION ${LIBEXCEPT_VERSION_MAJOR}
+set_target_properties( ${PROJECT_NAME}
+    PROPERTIES
+        VERSION
+            ${LIBEXCEPT_VERSION_MAJOR}.${LIBEXCEPT_VERSION_MINOR}
+
+        SOVERSION
+            ${LIBEXCEPT_VERSION_MAJOR}
 )
 
 install(
     TARGETS
         ${PROJECT_NAME}
+
     LIBRARY DESTINATION
         lib
 )
 
 install(
     FILES
-        ${HEADER_FILES}
+        demangle.h
+        exception.h
+        ${PROJECT_BINARY_DIR}/libexcept/version.h
+
     DESTINATION
         include/libexcept
 )

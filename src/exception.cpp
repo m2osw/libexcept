@@ -34,6 +34,10 @@
  */
 #include "./exception.h"
 
+// libexcept lib
+//
+#include "./demangle.h"
+
 // boost lib
 //
 #include <boost/algorithm/string/replace.hpp>
@@ -466,21 +470,7 @@ stack_trace_t collect_stack_trace_with_line_numbers( int stack_trace_depth )
                         if(!raw_function_name.empty())
                         {
                             result += " in ";
-                            std::string cppfilt("c++filt "
-                                              + raw_function_name);
-                            std::unique_ptr<FILE, decltype(&::pclose)> p(popen(cppfilt.c_str(), "r"), &::pclose);
-                            for(;;)
-                            {
-                                int const c(fgetc(p.get()));
-                                if(c == EOF)
-                                {
-                                    break;
-                                }
-                                if(c != '\n')
-                                {
-                                    result += c;
-                                }
-                            }
+                            result += demangle_cpp_name(raw_function_name.c_str());
                         }
                         else
                         {
