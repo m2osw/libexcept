@@ -54,7 +54,7 @@ namespace libexcept
 {
 
 
-std::string     demangle_typeid_name(char const * type_id_name);
+std::string     demangle_cpp_name(char const * type_id_name);
 
 
 }
