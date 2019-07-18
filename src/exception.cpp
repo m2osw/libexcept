@@ -232,7 +232,7 @@ void set_collect_stack( bool collect_stack )
  * always collect a stack trace. Only exceptions do not do so automatically
  * if you set the g_collect_stack flag to false.
  *
- * \important
+ * \attention
  * Use the collect_stack_with_line_numbers() to get demangled function
  * names and line numbers. Note that this other function is considered
  * \em very slow so do not use it in a standard exception. Consider
@@ -521,7 +521,7 @@ stack_trace_t collect_stack_trace_with_line_numbers( int stack_trace_depth )
  * just means not even one line is going to be taken from the
  * stack.
  *
- * \important
+ * \attention
  * It is to be noted that since a few functions from the libexcept are
  * going to be included in your stack trace, using a very small depth
  * such as 1 or 2 is not going to be helpful at all. You would only
