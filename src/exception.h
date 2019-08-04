@@ -106,6 +106,19 @@ public:
 };
 
 
+#define DECLARE_LOGIC_ERROR(name)                                       \
+    class name : public ::libexcept::logic_exception_t {                \
+    public: name(std::string const & msg) : logic_exception_t(msg) {} }
+
+#define DECLARE_MAIN_EXCEPTION(name)                                    \
+    class name : public ::libexcept::exception_t {                      \
+    public: name(std::string const & msg) : exception_t(msg) {} }
+
+#define DECLARE_EXCEPTION(base, name)                                   \
+    class name : public base {                                          \
+    public: name(std::string const & msg) : base(msg) {} }
+
+
 }
 // namespace libexcept
 // vim: ts=4 sw=4 et
