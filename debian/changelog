@@ -1,3 +1,9 @@
+libexcept (1.1.6.0~xenial) xenial; urgency=high
+
+  * Prepend the exception name to the logic/main errors.
+
+ -- Alexis Wilke <alexis@m2osw.com>  Mon,  2 Sep 2019 15:22:05 -0800
+
 libexcept (1.1.5.0~xenial) xenial; urgency=high
 
   * Added macros for quick exception declarations.

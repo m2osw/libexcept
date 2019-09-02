@@ -108,11 +108,11 @@ public:
 
 #define DECLARE_LOGIC_ERROR(name)                                       \
     class name : public ::libexcept::logic_exception_t {                \
-    public: name(std::string const & msg) : logic_exception_t(msg) {} }
+    public: name(std::string const & msg) : logic_exception_t(name + ": " + msg) {} }
 
 #define DECLARE_MAIN_EXCEPTION(name)                                    \
     class name : public ::libexcept::exception_t {                      \
-    public: name(std::string const & msg) : exception_t(msg) {} }
+    public: name(std::string const & msg) : exception_t(name + ": " + msg) {} }
 
 #define DECLARE_EXCEPTION(base, name)                                   \
     class name : public base {                                          \
