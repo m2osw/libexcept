@@ -92,6 +92,20 @@ public:
 };
 
 
+class out_of_range_t
+    : public std::out_of_range
+    , public exception_base_t
+{
+public:
+    explicit                    out_of_range_t( std::string const & what, int const stack_trace_depth = STACK_TRACE_DEPTH );
+    explicit                    out_of_range_t( char const *        what, int const stack_trace_depth = STACK_TRACE_DEPTH );
+
+    virtual                     ~out_of_range_t() override {}
+
+    virtual char const *        what() const throw() override;
+};
+
+
 class exception_t
     : public std::runtime_error
     , public exception_base_t
@@ -109,6 +123,10 @@ public:
 #define DECLARE_LOGIC_ERROR(name)                                       \
     class name : public ::libexcept::logic_exception_t {                \
     public: name(std::string const & msg) : logic_exception_t(#name ": " + msg) {} }
+
+#define DECLARE_OUT_OF_RANGE(name)                                      \
+    class name : public ::libexcept::out_of_range_t {                   \
+    public: name(std::string const & msg) : out_of_range_t(#name ": " + msg) {} }
 
 #define DECLARE_MAIN_EXCEPTION(name)                                    \
     class name : public ::libexcept::exception_t {                      \

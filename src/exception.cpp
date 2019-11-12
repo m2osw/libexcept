@@ -97,6 +97,13 @@
  * mistake and the problem can be fixed by fixing the code (i.e. once the
  * code is fixed, you should then never see the error again.)
  *
+ * \subsection out_of_range_exception libexcept::out_of_range_t
+ *
+ * This is an extension of the std::logic_error which is expected to be used
+ * whenever an out of range error occurs. This is mainly for when an index
+ * is out of range when attempting to retrieve an item from an array or
+ * similar concept.
+ *
  * \subsection runtime_exception libexcept::exception_t
  *
  * Used for most of our exceptions. This is based on the
@@ -595,6 +602,8 @@ exception_base_t::exception_base_t( int const stack_trace_depth )
  * the stack trace at the time the exception was raised.
  */
 
+
+
 /** \brief Initialize an exception from a C++ string.
  *
  * This function initializes an exception settings its 'what' string to
@@ -657,6 +666,82 @@ logic_exception_t::logic_exception_t( char const * what, int const stack_trace_d
 char const * logic_exception_t::what() const throw()
 {
     return std::logic_error::what();
+}
+
+
+
+
+
+
+
+
+
+
+
+/** \brief Initialize an exception from a C++ string.
+ *
+ * This function initializes an exception settings its 'what' string to
+ * the specified \p what parameter.
+ *
+ * \note
+ * Out of Range exceptions are an extension of the Logic Exception used
+ * whenever a container is being accessed with an index which is too large.
+ * It may also be used whenever a number doesn't fit its destination variable
+ * (i.e. trying to return 300 in an `int8_t`).
+ *
+ * \param[in] what  The string used to initialize the exception what parameter.
+ * \param[in] stack_trace_depth  The number of lines to grab in our
+ *                               stack trace.
+ */
+out_of_range_t::out_of_range_t( std::string const & what, int const stack_trace_depth )
+    : std::out_of_range(what.c_str())
+    , exception_base_t(stack_trace_depth)
+{
+}
+
+
+/** \fn out_of_range_t::~out_of_range_t()
+ * \brief Destructor of the out_of_range exception class.
+ *
+ * This destructor is defined to ease derivation when some of the classes
+ * have virtual functions.
+ */
+
+
+/** \brief Initialize an exception from a C string.
+ *
+ * This function initializes an exception settings its 'what' string to
+ * the specified \p what parameter.
+ *
+ * \note
+ * Logic exceptions are used for things that just should not ever happen.
+ * More or less, a verification of your class contract that fails.
+ *
+ * \param[in] what  The string used to initialize the exception what parameter.
+ * \param[in] stack_trace_depth  The number of lines to grab in our
+ *                               stack trace.
+ */
+out_of_range_t::out_of_range_t( char const * what, int const stack_trace_depth )
+    : std::out_of_range(what)
+    , exception_base_t(stack_trace_depth)
+{
+}
+
+
+/** \brief Retrieve the `what` parameter as passed to the constructor.
+ *
+ * This function returns the `what` description of the exception when the
+ * exception was initialized.
+ *
+ * \note
+ * We have an overload because of the dual derivation.
+ *
+ * \return A pointer to the what string. Must be used before the exception
+ *         gets destructed.
+ */
+char const * out_of_range_t::what() const throw()
+{
+    return std::out_of_range::what();
 }
 
 

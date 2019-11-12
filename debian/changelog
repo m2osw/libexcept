@@ -1,3 +1,9 @@
+libexcept (1.1.7.0~xenial) xenial; urgency=high
+
+  * Added the "out of range" exception.
+
+ -- Alexis Wilke <alexis@m2osw.com>  Tue, 12 Nov 2019 02:02:55 -0800
+
 libexcept (1.1.6.0~xenial) xenial; urgency=high
 
   * Prepend the exception name to the logic/main errors.
