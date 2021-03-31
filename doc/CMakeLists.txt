@@ -2,7 +2,7 @@
 # File:         doc/CMakeLists.txt
 # Object:       Definitions to generate the documentation of the exception library
 #
-# Copyright:    Copyright (c) 2005-2019  Made to Order Software Corp.  All Rights Reserved
+# Copyright:    Copyright (c) 2005-2021  Made to Order Software Corp.  All Rights Reserved
 #               All Rights Reserved.
 #
 # https://snapwebsites.org/

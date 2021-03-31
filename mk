@@ -3,7 +3,7 @@
 # Sample script to run make without having to retype the long path each time
 # This will work if you built the environment using our ~/bin/build-snap script
 
-PROCESSORS=4
+PROCESSORS=`nproc`
 PROJECT_NAME=libexcept
 
 case $1 in
@@ -12,26 +12,30 @@ case $1 in
 	;;
 
 "-d")
-	rm -rf ../../../BUILD/contrib//${PROJECT_NAME}/doc//${PROJECT_NAME}-doc-1.0.tar.gz
-	make -C ../../../BUILD/contrib//${PROJECT_NAME}
+	rm -rf ../../../BUILD/contrib/${PROJECT_NAME}/doc/${PROJECT_NAME}-doc-1.0.tar.gz
+	make -C ../../../BUILD/contrib/${PROJECT_NAME}
 	;;
 
 "-i")
-	make -j${PROCESSORS} -C ../../../BUILD/contrib//${PROJECT_NAME} install
+	make -j${PROCESSORS} -C ../../../BUILD/contrib/${PROJECT_NAME} install
 	;;
 
 #"-t")
 #	(
-#		if make -j${PROCESSORS} -C ../../../BUILD/contrib//${PROJECT_NAME}
+#		if make -j${PROCESSORS} -C ../../../BUILD/contrib/${PROJECT_NAME}
 #		then
 #			shift
-#			../../../BUILD/contrib//${PROJECT_NAME}/tests/unittest --progress $*
+#			../../../BUILD/contrib/${PROJECT_NAME}/tests/unittest --progress $*
 #		fi
 #	) 2>&1 | less -SR
 #	;;
 
+"-r")
+	make -j${PROCESSORS} -C ../../../RELEASE/contrib/${PROJECT_NAME} install
+	;;
+
 "")
-	make -j${PROCESSORS} -C ../../../BUILD/contrib//${PROJECT_NAME}
+	make -j${PROCESSORS} -C ../../../BUILD/contrib/${PROJECT_NAME}
 	;;
 
 *)

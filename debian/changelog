@@ -1,3 +1,11 @@
+libexcept (1.1.8.0~bionic) bionic; urgency=high
+
+  * Updated the copyright notices.
+  * Simplified the source file headers.
+  * Enhanced the mk script.
+
+ -- Alexis Wilke <alexis@m2osw.com>  Tue, 26 May 2020 17:47:48 -0800
+
 libexcept (1.1.7.1~bionic) bionic; urgency=high
 
   * Bump version to get an ARM version.
