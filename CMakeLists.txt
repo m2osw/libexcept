@@ -44,8 +44,8 @@ SnapGetVersion(LIBEXCEPT ${CMAKE_SOURCE_DIR})
 link_directories(${CMAKE_BINARY_DIR}/dist/lib/)
 
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_BINARY_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/libexcept
+    ${CMAKE_CURRENT_BINARY_DIR}/libexcept
     ${CMAKE_BINARY_DIR}
 )
 
@@ -55,7 +55,7 @@ include_directories(
 #endif()
 
 add_subdirectory(cmake)
-add_subdirectory(src)
+add_subdirectory(libexcept)
 #add_subdirectory(tests)
 add_subdirectory(doc)
 
