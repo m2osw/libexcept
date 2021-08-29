@@ -3,31 +3,32 @@
 // https://snapwebsites.org/
 // contact@m2osw.com
 //
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
 //
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-// CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #pragma once
+
+// self
+//
+#include    <libexcept/stack_trace.h>
+
 
 // C++ includes
 //
-#include <stdexcept>
-#include <string>
-#include <vector>
+#include    <stdexcept>
+#include    <string>
+#include    <list>
+
 
 /** \file
  * \brief Declarations of the exception library.
@@ -43,19 +44,22 @@ namespace libexcept
 {
 
 
-constexpr int        STACK_TRACE_DEPTH = 20;
 
-typedef std::vector<std::string>        stack_trace_t;
+enum class collect_stack_t
+{
+    COLLECT_STACK_NO,           // no stack trace for exceptions
+    COLLECT_STACK_YES,          // plain stack trace (fast)
+    COLLECT_STACK_COMPLETE,     // include filenames & line numbers (slow)
+};
 
-void                set_collect_stack( bool collect_stack );
-stack_trace_t       collect_stack_trace( int const stack_trace_depth = STACK_TRACE_DEPTH );
-stack_trace_t       collect_stack_trace_with_line_numbers( int const stack_trace_depth = STACK_TRACE_DEPTH );
+collect_stack_t     get_collect_stack();
+void                set_collect_stack(collect_stack_t collect_stack);
 
 
 class exception_base_t
 {
 public:
-    explicit                    exception_base_t( int const stack_trace_depth = STACK_TRACE_DEPTH );
+    explicit                    exception_base_t(int const stack_trace_depth = STACK_TRACE_DEPTH);
 
     virtual                     ~exception_base_t() {}
 
@@ -71,8 +75,8 @@ class logic_exception_t
     , public exception_base_t
 {
 public:
-    explicit                    logic_exception_t( std::string const & what, int const stack_trace_depth = STACK_TRACE_DEPTH );
-    explicit                    logic_exception_t( char const *        what, int const stack_trace_depth = STACK_TRACE_DEPTH );
+    explicit                    logic_exception_t(std::string const & what, int const stack_trace_depth = STACK_TRACE_DEPTH);
+    explicit                    logic_exception_t(char const *        what, int const stack_trace_depth = STACK_TRACE_DEPTH);
 
     virtual                     ~logic_exception_t() override {}
 
@@ -85,8 +89,8 @@ class out_of_range_t
     , public exception_base_t
 {
 public:
-    explicit                    out_of_range_t( std::string const & what, int const stack_trace_depth = STACK_TRACE_DEPTH );
-    explicit                    out_of_range_t( char const *        what, int const stack_trace_depth = STACK_TRACE_DEPTH );
+    explicit                    out_of_range_t(std::string const & what, int const stack_trace_depth = STACK_TRACE_DEPTH);
+    explicit                    out_of_range_t(char const *        what, int const stack_trace_depth = STACK_TRACE_DEPTH);
 
     virtual                     ~out_of_range_t() override {}
 
@@ -99,8 +103,8 @@ class exception_t
     , public exception_base_t
 {
 public:
-    explicit                    exception_t( std::string const & what, int const stack_trace_depth = STACK_TRACE_DEPTH );
-    explicit                    exception_t( char const *        what, int const stack_trace_depth = STACK_TRACE_DEPTH );
+    explicit                    exception_t(std::string const & what, int const stack_trace_depth = STACK_TRACE_DEPTH);
+    explicit                    exception_t(char const *        what, int const stack_trace_depth = STACK_TRACE_DEPTH);
 
     virtual                     ~exception_t() override {}
 

@@ -1,3 +1,18 @@
+libexcept (1.1.10.0~bionic) bionic; urgency=high
+
+  * Created full coverage snapcatch2 tests.
+  * Added snapcatch2 as a build dependency.
+  * Moved the stack trace code to a separate .cpp file.
+  * Fixed the -I command line options for the `#include`s.
+  * Changed the stack_trace_t to a list instead of a vector.
+  * Changed the version implementation to look like other implementations.
+  * Made the version.h/.cpp function as expected.
+  * Fixed path to the version.h in the binary folder.
+  * Allow to select whether to only collect the basic stack or complete.
+  * Various clean ups (copyright notices, especially).
+
+ -- Alexis Wilke <alexis@m2osw.com>  Sat, 28 Aug 2021 14:19:00 -0700
+
 libexcept (1.1.9.0~bionic) bionic; urgency=high
 
   * Renamed the "src" folder "libexcept" like with other libraries.

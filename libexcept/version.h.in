@@ -26,9 +26,9 @@
 namespace libexcept
 {
 
-constexpr int   LIBEXCEPT_LIBRARY_VERSION_MAJOR  = @LIBEXCEPT_VERSION_MAJOR@;
-constexpr int   LIBEXCEPT_LIBRARY_VERSION_MINOR  = @LIBEXCEPT_VERSION_MINOR@;
-constexpr int   LIBEXCEPT_LIBRARY_VERSION_PATCH  = @LIBEXCEPT_VERSION_PATCH@;
+constexpr int const   LIBEXCEPT_VERSION_MAJOR  = @LIBEXCEPT_VERSION_MAJOR@;
+constexpr int const   LIBEXCEPT_VERSION_MINOR  = @LIBEXCEPT_VERSION_MINOR@;
+constexpr int const   LIBEXCEPT_VERSION_PATCH  = @LIBEXCEPT_VERSION_PATCH@;
 
 /** \brief The library version as a string.
  *
@@ -42,7 +42,14 @@ constexpr int   LIBEXCEPT_LIBRARY_VERSION_PATCH  = @LIBEXCEPT_VERSION_PATCH@;
  *
  * \sa version()
  */
-static char const * LIBEXCEPT_LIBRARY_VERSION_STRING __attribute__((unused)) = "@LIBEXCEPT_VERSION_MAJOR@.@LIBEXCEPT_VERSION_MINOR@.@LIBEXCEPT_VERSION_PATCH@";
+static char const * LIBEXCEPT_VERSION_STRING __attribute__((unused)) = "@LIBEXCEPT_VERSION_MAJOR@.@LIBEXCEPT_VERSION_MINOR@.@LIBEXCEPT_VERSION_PATCH@";
+
+
+int             get_major_version();
+int             get_minor_version();
+int             get_patch_version();
+char const *    get_version_string();
+
 
 
 } // namespace libexcept

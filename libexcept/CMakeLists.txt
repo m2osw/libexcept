@@ -23,25 +23,31 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-project( except )
+project(except)
 
 configure_file(
     version.h.in
-    ${PROJECT_BINARY_DIR}/libexcept/version.h
+    ${PROJECT_BINARY_DIR}/version.h
 )
 
 
 add_library(${PROJECT_NAME} SHARED
     demangle.cpp
     exception.cpp
+    stack_trace.cpp
     version.cpp
 )
 
-include_directories(
-    ${BOOST_INCLUDE_DIRS}
+target_include_directories(${PROJECT_NAME}
+    PUBLIC
+        ${BOOST_INCLUDE_DIRS}
 )
 
-set_target_properties( ${PROJECT_NAME}
+#target_link_libraries(${PROJECT_NAME}
+#    dl
+#)
+
+set_target_properties(${PROJECT_NAME}
     PROPERTIES
         VERSION
             ${LIBEXCEPT_VERSION_MAJOR}.${LIBEXCEPT_VERSION_MINOR}
@@ -62,7 +68,8 @@ install(
     FILES
         demangle.h
         exception.h
-        ${PROJECT_BINARY_DIR}/libexcept/version.h
+        stack_trace.h
+        ${PROJECT_BINARY_DIR}/version.h
 
     DESTINATION
         include/libexcept

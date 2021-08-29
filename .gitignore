@@ -1,3 +1,6 @@
 # vim editor
 *.sw?
 
+# coverage and other temporary files
+tmp
+

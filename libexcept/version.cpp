@@ -38,9 +38,9 @@ namespace libexcept
  *
  * \return A constant string that represents the library version.
  */
-char const * version()
+char const * get_version_string()
 {
-    return LIBEXCEPT_LIBRARY_VERSION_STRING;
+    return LIBEXCEPT_VERSION_STRING;
 }
 
 /** \brief Return the major version number.
@@ -50,9 +50,9 @@ char const * version()
  *
  * \return The library major version number when it was compiled.
  */
-int version_major()
+int get_major_version()
 {
-    return LIBEXCEPT_LIBRARY_VERSION_MAJOR;
+    return LIBEXCEPT_VERSION_MAJOR;
 }
 
 /** \brief Return the minor version number.
@@ -62,9 +62,9 @@ int version_major()
  *
  * \return The library minor version number when it was compiled.
  */
-int version_minor()
+int get_minor_version()
 {
-    return LIBEXCEPT_LIBRARY_VERSION_MINOR;
+    return LIBEXCEPT_VERSION_MINOR;
 }
 
 /** \brief Return the patch version number.
@@ -74,9 +74,9 @@ int version_minor()
  *
  * \return The library minor version number when it was compiled.
  */
-int version_patch()
+int get_patch_version()
 {
-    return LIBEXCEPT_LIBRARY_VERSION_PATCH;
+    return LIBEXCEPT_VERSION_PATCH;
 }
 
 
