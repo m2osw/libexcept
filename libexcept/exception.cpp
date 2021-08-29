@@ -103,7 +103,7 @@
  * \code
  *      libexcept::exception_base_t stack_info;
  *      libexcept::stack_trace_t stack_dump(stack_info.get_stack_trace());
- *      ...here `stack_dump` is a vector of strings, one string represents one frame...
+ *      ...here `stack_dump` is a list of strings, one string per frame...
  * \endcode
  *
  * By default we use STACK_TRACE_DEPTH as the number of stings to return
