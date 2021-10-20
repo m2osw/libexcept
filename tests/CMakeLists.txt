@@ -13,9 +13,9 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 
 ##
@@ -23,9 +23,9 @@
 ##
 project(unittest)
 
-find_package(Catch2)
+find_package(SnapCatch2)
 
-if(Catch2_FOUND)
+if(SNAPCATCH2_FOUND)
 
     add_definitions(
         -DCATCH_CONFIG_PREFIX_ALL
@@ -44,7 +44,7 @@ if(Catch2_FOUND)
         PUBLIC
             ${CMAKE_BINARY_DIR}
             ${PROJECT_SOURCE_DIR}/..
-            ${CATCH_INCLUDE_DIR}
+            ${SNAPCATCH2_INCLUDE_DIRS}
     )
 
     target_link_libraries(${PROJECT_NAME}
@@ -53,10 +53,10 @@ if(Catch2_FOUND)
 
     add_test(unittests ${PROJECT_NAME})
 
-else(Catch2_FOUND)
+else(SNAPCATCH2_FOUND)
 
-    message("snapcatch2 not found... no test will be built.")
+    message("SnapCatch2 not found... no test will be built.")
 
-endif(Catch2_FOUND)
+endif(SNAPCATCH2_FOUND)
 
 # vim: ts=4 sw=4 et

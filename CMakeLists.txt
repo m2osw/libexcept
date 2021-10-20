@@ -13,9 +13,9 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 cmake_minimum_required(VERSION 3.5)
 
@@ -23,7 +23,6 @@ cmake_minimum_required(VERSION 3.5)
 project(libexcept)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTOMOC             TRUE)
 
 ## Include support modules
 ##
@@ -31,21 +30,14 @@ find_package(SnapCMakeModules REQUIRED)
 find_package(Boost            REQUIRED)
 find_package(SnapDoxygen              )
 
-SnapGetVersion(LIBEXCEPT ${CMAKE_SOURCE_DIR})
-
-## This will cause us to look in the 3rdParty area for thrift and other 3rdparty libs
+## Get version from debian/changelog
 ##
-link_directories(${CMAKE_BINARY_DIR}/dist/lib/)
+SnapGetVersion(LIBEXCEPT ${CMAKE_SOURCE_DIR})
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
 )
-
-#option( RUN_TESTS "Enable CTest support and turn on the 'test' make target." OFF )
-#if( ${RUN_TESTS} )
-#    enable_testing()
-#endif()
 
 add_subdirectory(cmake)
 add_subdirectory(libexcept)
