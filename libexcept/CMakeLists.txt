@@ -31,15 +31,6 @@ add_library(${PROJECT_NAME} SHARED
     version.cpp
 )
 
-target_include_directories(${PROJECT_NAME}
-    PUBLIC
-        ${BOOST_INCLUDE_DIRS}
-)
-
-#target_link_libraries(${PROJECT_NAME}
-#    dl
-#)
-
 set_target_properties(${PROJECT_NAME}
     PROPERTIES
         VERSION

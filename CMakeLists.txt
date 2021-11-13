@@ -22,13 +22,9 @@ cmake_minimum_required(VERSION 3.10.2)
 
 project(libexcept)
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
 ## Include support modules
 ##
 find_package(SnapCMakeModules REQUIRED)
-find_package(Boost            REQUIRED)
-find_package(SnapDoxygen              )
 
 ## Get version from debian/changelog
 ##
