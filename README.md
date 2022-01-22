@@ -1,4 +1,9 @@
 
+<p align="center">
+<img alt="libexcept" title="libexcept -- a library to get verbose exceptions."
+src="https://snapwebsites.org/sites/snapwebsites.org/files/images/libexcept-logo.png" width="200" height="200"/>
+</p>
+
 # Introduction
 
 The `libexcept` library provides a convenient class to derive your
