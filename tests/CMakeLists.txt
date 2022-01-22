@@ -1,4 +1,4 @@
-# Copyright (c) 2021  Made to Order Software Corp.  All Rights Reserved
+# Copyright (c) 2021-2022  Made to Order Software Corp.  All Rights Reserved
 #
 # https://snapwebsites.org/project/libexcept
 # contact@m2osw.com
@@ -25,7 +25,7 @@ project(unittest)
 
 find_package(SnapCatch2)
 
-if(SNAPCATCH2_FOUND)
+if(SnapCatch2_FOUND)
 
     add_definitions(
         -DCATCH_CONFIG_PREFIX_ALL
@@ -49,14 +49,15 @@ if(SNAPCATCH2_FOUND)
 
     target_link_libraries(${PROJECT_NAME}
         except
+        ${SNAPCATCH2_LIBRARIES}
     )
 
     add_test(unittests ${PROJECT_NAME})
 
-else(SNAPCATCH2_FOUND)
+else(SnapCatch2_FOUND)
 
     message("SnapCatch2 not found... no test will be built.")
 
-endif(SNAPCATCH2_FOUND)
+endif(SnapCatch2_FOUND)
 
 # vim: ts=4 sw=4 et
