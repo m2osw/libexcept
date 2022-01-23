@@ -25,14 +25,10 @@
 #include    "catch_main.h"
 
 
-// libexce lib
-//
-#include    <libexcept/version.h>
-
-
 // libexcept lib
 //
 #include    <libexcept/exception.h>
+#include    <libexcept/version.h>
 
 
 // C++ lib

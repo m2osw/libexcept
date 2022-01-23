@@ -27,10 +27,6 @@ find_package(SnapCatch2)
 
 if(SnapCatch2_FOUND)
 
-    add_definitions(
-        -DCATCH_CONFIG_PREFIX_ALL
-    )
-
     add_executable(${PROJECT_NAME}
         catch_main.cpp
 
