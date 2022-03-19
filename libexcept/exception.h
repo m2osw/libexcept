@@ -1,6 +1,6 @@
 // Copyright (c) 2011-2021  Made to Order Software Corp.  All Rights Reserved
 //
-// https://snapwebsites.org/
+// https://snapwebsites.org/project/libexcept
 // contact@m2osw.com
 //
 // This program is free software; you can redistribute it and/or modify
@@ -27,7 +27,6 @@
 //
 #include    <stdexcept>
 #include    <string>
-#include    <list>
 
 
 /** \file
