@@ -19,6 +19,26 @@
 
 
 ##
+## tool that verifies file inheritance
+##
+project(verify-file-inheritance)
+
+add_executable(${PROJECT_NAME}
+    verify_file_inheritance.cpp
+)
+
+target_include_directories(${PROJECT_NAME}
+    PUBLIC
+        ${CMAKE_BINARY_DIR}
+        ${CMAKE_SOURCE_DIR}
+)
+
+target_link_libraries(${PROJECT_NAME}
+    except
+)
+
+
+##
 ## libexcept unittest
 ##
 project(unittest)
@@ -32,6 +52,7 @@ if(SnapCatch2_FOUND)
 
         catch_demangle.cpp
         catch_exceptions.cpp
+        catch_file_inheritance.cpp
         catch_stack_trace.cpp
         catch_version.cpp
     )
@@ -39,7 +60,7 @@ if(SnapCatch2_FOUND)
     target_include_directories(${PROJECT_NAME}
         PUBLIC
             ${CMAKE_BINARY_DIR}
-            ${PROJECT_SOURCE_DIR}/..
+            ${CMAKE_SOURCE_DIR}
             ${SNAPCATCH2_INCLUDE_DIRS}
     )
 

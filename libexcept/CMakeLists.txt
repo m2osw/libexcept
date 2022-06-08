@@ -27,6 +27,7 @@ configure_file(
 add_library(${PROJECT_NAME} SHARED
     demangle.cpp
     exception.cpp
+    file_inheritance.cpp
     stack_trace.cpp
     version.cpp
 )

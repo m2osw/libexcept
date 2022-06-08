@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2022  Made to Order Software Corp.  All Rights Reserved
+// Copyright (c) 2011-2022  Made to Order Software Corp.  All Rights Reserved
 //
 // https://snapwebsites.org/project/libexcept
 // contact@m2osw.com
@@ -16,29 +16,32 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+#pragma once
 
-// libexcept
+// C++ includes
 //
-#include    <libexcept/version.h>
+#include    <set>
+#include    <string>
 
 
-// self
-//
-#include    "catch_main.h"
+/** \file
+ * \brief Declarations of the stack trace functions.
+ *
+ * This file defines the few functions, types, and default numbers in
+ * link with the stack trace code.
+ */
 
 
-
-CATCH_TEST_CASE("Version", "[version]")
+namespace libexcept
 {
-    CATCH_START_SECTION("verify runtime vs compile time version numbers")
-    {
-        CATCH_REQUIRE(libexcept::get_major_version() == libexcept::LIBEXCEPT_VERSION_MAJOR);
-        CATCH_REQUIRE(libexcept::get_minor_version() == libexcept::LIBEXCEPT_VERSION_MINOR);
-        CATCH_REQUIRE(libexcept::get_patch_version() == libexcept::LIBEXCEPT_VERSION_PATCH);
-        CATCH_REQUIRE(strcmp(libexcept::get_version_string(), libexcept::LIBEXCEPT_VERSION_STRING) == 0);
-    }
-    CATCH_END_SECTION()
+
+
+typedef std::set<int>           allowed_fds_t;
+
+std::string                     get_command_line(pid_t pid);
+void                            verify_inherited_files(allowed_fds_t allowed = allowed_fds_t());
+
+
 }
-
-
+// namespace libexcept
 // vim: ts=4 sw=4 et

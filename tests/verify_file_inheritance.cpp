@@ -1,6 +1,6 @@
-// Copyright (c) 2012-2022  Made to Order Software Corp.  All Rights Reserved
+// Copyright (c) 2011-2022  Made to Order Software Corp.  All Rights Reserved
 //
-// https://snapwebsites.org/project/libexcept
+// https://snapwebsites.org/
 // contact@m2osw.com
 //
 // This program is free software; you can redistribute it and/or modify
@@ -19,25 +19,29 @@
 
 // libexcept
 //
-#include    <libexcept/version.h>
-
-
-// self
-//
-#include    "catch_main.h"
+#include    "libexcept/file_inheritance.h"
 
 
 
-CATCH_TEST_CASE("Version", "[version]")
+/** \file
+ * \brief A tool which verifies file inheritance.
+ *
+ * This tool is used to verify that we properly detect file inheritance.
+ */
+
+
+#include <string>
+#include <iostream>
+#include <unistd.h>
+
+int main()
 {
-    CATCH_START_SECTION("verify runtime vs compile time version numbers")
-    {
-        CATCH_REQUIRE(libexcept::get_major_version() == libexcept::LIBEXCEPT_VERSION_MAJOR);
-        CATCH_REQUIRE(libexcept::get_minor_version() == libexcept::LIBEXCEPT_VERSION_MINOR);
-        CATCH_REQUIRE(libexcept::get_patch_version() == libexcept::LIBEXCEPT_VERSION_PATCH);
-        CATCH_REQUIRE(strcmp(libexcept::get_version_string(), libexcept::LIBEXCEPT_VERSION_STRING) == 0);
-    }
-    CATCH_END_SECTION()
+//std::string list("ls -l /proc/" + std::to_string(getpid()) + "/fd");
+//std::cerr << "--- INSIDE VERIFY --- " << list << "\n";
+//system(list.c_str());
+//sleep(120);
+    libexcept::verify_inherited_files();
+    return 0;
 }
 
 

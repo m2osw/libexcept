@@ -19,7 +19,7 @@
 
 // libexcept
 //
-#include    <libexcept/version.h>
+#include    <libexcept/file_inheritance.h>
 
 
 // self
@@ -27,15 +27,32 @@
 #include    "catch_main.h"
 
 
+// C++
+//
+#include    <fstream>
 
-CATCH_TEST_CASE("Version", "[version]")
+
+
+CATCH_TEST_CASE("file_inheritance", "[file_inheritance]")
 {
-    CATCH_START_SECTION("verify runtime vs compile time version numbers")
+    std::string path("../../BUILD/Debug/contrib/libexcept/tests/verify-file-inheritance");
+
+    CATCH_START_SECTION("file_inheritance: verify that a process succeed in a clean environment")
     {
-        CATCH_REQUIRE(libexcept::get_major_version() == libexcept::LIBEXCEPT_VERSION_MAJOR);
-        CATCH_REQUIRE(libexcept::get_minor_version() == libexcept::LIBEXCEPT_VERSION_MINOR);
-        CATCH_REQUIRE(libexcept::get_patch_version() == libexcept::LIBEXCEPT_VERSION_PATCH);
-        CATCH_REQUIRE(strcmp(libexcept::get_version_string(), libexcept::LIBEXCEPT_VERSION_STRING) == 0);
+        int const r(system(path.c_str()));
+        CATCH_REQUIRE(r == 0);
+    }
+    CATCH_END_SECTION()
+
+    CATCH_START_SECTION("file_inheritance: verify that a process fails if unexpected files are inherited")
+    {
+        // create a file and keep it open when we call system()
+        //
+        std::ofstream out(SNAP_CATCH2_NAMESPACE::g_tmp_dir() + "/file-to-inherit.txt");
+        out << "Test" << std::endl;
+
+        int const r(system(path.c_str()));
+        CATCH_REQUIRE(r != 0);
     }
     CATCH_END_SECTION()
 }
