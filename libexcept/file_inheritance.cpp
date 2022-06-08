@@ -168,7 +168,9 @@ void verify_inherited_files(allowed_fds_t allowed)
 #ifdef _DEBUG
     if(errcnt > 0)
     {
-        throw std::runtime_error("found unexpected file descriptor leaks.");
+        // this is a logic error
+        //
+        throw file_inherited("found unexpected file descriptor leaks.");
     }
 #endif
 }

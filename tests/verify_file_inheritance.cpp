@@ -36,10 +36,6 @@
 
 int main()
 {
-//std::string list("ls -l /proc/" + std::to_string(getpid()) + "/fd");
-//std::cerr << "--- INSIDE VERIFY --- " << list << "\n";
-//system(list.c_str());
-//sleep(120);
     libexcept::verify_inherited_files();
     return 0;
 }

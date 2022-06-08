@@ -18,10 +18,16 @@
 // Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #pragma once
 
-// C++ includes
+// self
+//
+#include    <libexcept/exception.h>
+
+
+// C++
 //
 #include    <set>
 #include    <string>
+
 
 
 /** \file
@@ -35,6 +41,8 @@
 namespace libexcept
 {
 
+
+DECLARE_LOGIC_ERROR(file_inherited);
 
 typedef std::set<int>           allowed_fds_t;
 
