@@ -1,14 +1,10 @@
-libexcept (1.1.13.1~bionic) bionic; urgency=high
-
-  * Fixed the compat version.
-
- -- Alexis Wilke <alexis@m2osw.com>  Thu, 19 May 2022 20:25:37 -0700
-
 libexcept (1.1.13.0~bionic) bionic; urgency=high
 
   * Fixed the cmake file, we do not need the PREFIX.
+  * Added the verify_file_inheritance() function.
   * Cleaned up the cmake file.
   * Removed some unused #include.
+  * Fixed the compat version.
 
  -- Alexis Wilke <alexis@m2osw.com>  Thu, 19 May 2022 12:50:50 -0700
 

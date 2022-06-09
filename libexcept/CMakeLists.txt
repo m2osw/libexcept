@@ -53,6 +53,7 @@ install(
     FILES
         demangle.h
         exception.h
+        file_inheritance.h
         stack_trace.h
         ${PROJECT_BINARY_DIR}/version.h
 
