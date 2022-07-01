@@ -36,6 +36,7 @@ namespace SNAP_CATCH2_NAMESPACE
 {
 
 
+extern std::string g_verify_file_inheriance_path;
 
 
 inline char32_t rand_char(bool full_range = false)

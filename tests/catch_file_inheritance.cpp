@@ -27,6 +27,12 @@
 #include    "catch_main.h"
 
 
+// snapdev
+//
+#include    <snapdev/join_strings.h>
+#include    <snapdev/tokenize_string.h>
+
+
 // C++
 //
 #include    <fstream>
@@ -35,7 +41,89 @@
 
 CATCH_TEST_CASE("file_inheritance", "[file_inheritance]")
 {
-    std::string path("../../BUILD/Debug/contrib/libexcept/tests/verify-file-inheritance");
+    std::string path(SNAP_CATCH2_NAMESPACE::g_verify_file_inheriance_path);
+    path += "/verify-file-inheritance";
+
+    CATCH_START_SECTION("file_inheritance: check command line")
+    {
+        std::string cmd(libexcept::get_command_line(getpid()));
+        char * p(realpath(cmd.c_str(), nullptr));
+        CATCH_REQUIRE(p != nullptr);
+
+        // this changes depending on whether we run the test directly
+        // or from within coverage, so I check the paths with segments
+        // allowing various levels on either side
+        //
+        std::list<std::string> cmd_seg;
+        snapdev::tokenize_string(cmd_seg, p, "/", true);
+
+        // in the normal testing, we have a full filename to the unittest
+        // in the binary tree
+        //
+        // in case of the coverage test, we just have "BUILD/tests/unittest"
+        //
+        std::string const expected(SNAP_CATCH2_NAMESPACE::g_verify_file_inheriance_path + "/unittest");
+        std::list<std::string> expected_seg;
+        snapdev::tokenize_string(expected_seg, expected, "/", true);
+
+        auto cmd_it(cmd_seg.begin());
+        auto expected_it(expected_seg.begin());
+        while(cmd_it != cmd_seg.end()
+           && expected_it != expected_seg.end())
+        {
+            if(*cmd_it == *expected_it)
+            {
+                ++cmd_it;
+                ++expected_it;
+            }
+            else if(*cmd_it == "BUILD")
+            {
+                for(;
+                    expected_it != expected_seg.end() && *expected_it != "BUILD";
+                    ++expected_it);
+            }
+            else if(*cmd_it == "coverage")
+            {
+                ++cmd_it;
+                CATCH_REQUIRE(cmd_it != cmd_seg.end());
+                CATCH_REQUIRE(*cmd_it == "BUILD");
+                ++cmd_it;
+            }
+            else
+            {
+                // not a match
+                break;
+            }
+        }
+        if(cmd_it != cmd_seg.end()
+        || expected_it != expected_seg.end())
+        {
+            std::list<std::string> rem(cmd_it, cmd_seg.end());
+            if(!rem.empty())
+            {
+                std::cerr << "error: cmd_it still has: "
+                    << snapdev::join_strings(rem, "/")
+                    << " from "
+                    << cmd
+                    << '\n';
+            }
+
+            rem = std::list<std::string>(expected_it, expected_seg.end());
+            if(!rem.empty())
+            {
+                std::cerr << "error: expected_it still has: "
+                    << snapdev::join_strings(rem, "/")
+                    << " from "
+                    << expected
+                    << '\n';
+            }
+
+            CATCH_REQUIRE(!"cmd_it != expected_it");
+        }
+
+        free(p);
+    }
+    CATCH_END_SECTION()
 
     CATCH_START_SECTION("file_inheritance: verify that a process succeed in a clean environment")
     {

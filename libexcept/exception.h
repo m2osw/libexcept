@@ -25,8 +25,10 @@
 
 // C++ includes
 //
+#include    <map>
 #include    <stdexcept>
 #include    <string>
+#include    <vector>
 
 
 /** \file
@@ -51,6 +53,10 @@ enum class collect_stack_t
     COLLECT_STACK_COMPLETE,     // include filenames & line numbers (slow)
 };
 
+
+typedef std::map<std::string, std::string>  parameter_t;
+
+
 collect_stack_t     get_collect_stack();
 void                set_collect_stack(collect_stack_t collect_stack);
 
@@ -62,9 +68,14 @@ public:
 
     virtual                     ~exception_base_t() {}
 
+    parameter_t const &         get_parameters() const;
+    std::string                 get_parameter(std::string const & name) const;
+    void                        set_parameter(std::string const & name, std::string const & value);
+
     stack_trace_t const &       get_stack_trace() const { return f_stack_trace; }
 
 private:
+    parameter_t                 f_parameters = parameter_t();
     stack_trace_t               f_stack_trace = stack_trace_t();
 };
 

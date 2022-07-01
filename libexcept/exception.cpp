@@ -317,6 +317,74 @@ exception_base_t::exception_base_t(int const stack_trace_depth)
  */
 
 
+/** \brief Retrieve the set of exception parameters.
+ *
+ * This function returns a reference to all the parameters found in this
+ * exception. In most cases, exceptions do not have parameters, however, we
+ * intend to change that as we continue work on our libraries.
+ *
+ * \return The reference to this exception parameters.
+ */
+parameter_t const & exception_base_t::get_parameters() const
+{
+    return f_parameters;
+}
+
+
+/** \brief Retrieve one of the exception parameters.
+ *
+ * Exceptions can be assigned parameters with the set_parameter() function.
+ * For example, you could include a filename as a parameter. This is useful
+ * when sending logs to a database. It can simplify your searches to know
+ * exact parameters instead of trying to parse strings.
+ *
+ * \param[in] name  The name of the parameter to search for.
+ *
+ * \return The value of the named parameter.
+ */
+std::string exception_base_t::get_parameter(std::string const & name) const
+{
+    auto const it(f_parameters.find(name));
+    if(it == f_parameters.end())
+    {
+        return std::string();
+    }
+
+    return it->second;
+}
+
+
+/** \brief Set a parameter in this exception.
+ *
+ * You may add parameters to your exceptions simply by calling this function.
+ *
+ * Parameters are given a name. At the moment the name is not restricted,
+ * however, if you want to make sure that it works in most places (i.e. in
+ * the snaplogger), then you probably want to limit the name to this regex:
+ *
+ * \code
+ *     [A-Za-z_][A-Za-z_0-9]*
+ * \endcode
+ *
+ * Parameter values are strings.
+ *
+ * This is an exception, so we do not raise an exception if the name of a
+ * parameter is considered invalid. At the moment, an empty string is
+ * considered invalid.
+ *
+ * \param[in] name  The name of the parameter. It cannot be empty.
+ * \param[in] value  The value of this parameter.
+ */
+void exception_base_t::set_parameter(std::string const & name, std::string const & value)
+{
+    if(name.empty())
+    {
+        return;
+    }
+
+    f_parameters[name] = value;
+}
+
 
 /** \fn exception_base_t::get_stack_trace()
  * \brief Retrieve the stack trace.

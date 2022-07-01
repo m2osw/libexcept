@@ -400,4 +400,37 @@ CATCH_TEST_CASE("direct_exception", "[trace][exception]")
 }
 
 
+CATCH_TEST_CASE("exception_parameters", "[parameters][exception]")
+{
+    CATCH_START_SECTION("exception parameters")
+    {
+        libexcept::exception_t basic_exception("something bad happened");
+
+        CATCH_CHECK(strcmp(basic_exception.what(), "something bad happened") == 0);
+
+        basic_exception.set_parameter("filename", "/etc/aliases");
+        basic_exception.set_parameter(std::string(), "ignored");
+
+        CATCH_CHECK(basic_exception.get_parameter("filename") == "/etc/aliases");
+        CATCH_CHECK(basic_exception.get_parameter("undefined").empty());
+        CATCH_CHECK(basic_exception.get_parameter(std::string()).empty());
+        CATCH_CHECK(basic_exception.get_parameters().size() == 1);
+
+        try
+        {
+            throw basic_exception;
+        }
+        catch(libexcept::exception_t const & e)
+        {
+            CATCH_CHECK(strcmp(e.what(), "something bad happened") == 0);
+            CATCH_CHECK(e.get_parameter("filename") == "/etc/aliases");
+            CATCH_CHECK(e.get_parameter("undefined").empty());
+            CATCH_CHECK(e.get_parameter(std::string()).empty());
+            CATCH_CHECK(e.get_parameters().size() == 1);
+        }
+    }
+    CATCH_END_SECTION()
+}
+
+
 // vim: ts=4 sw=4 et

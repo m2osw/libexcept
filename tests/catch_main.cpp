@@ -37,6 +37,30 @@
 
 
 
+namespace SNAP_CATCH2_NAMESPACE
+{
+
+
+std::string  g_verify_file_inheriance_path;
+
+
+} // namespace SNAP_CATCH2_NAMESPACE
+
+
+namespace
+{
+
+
+Catch::Clara::Parser add_command_line_options(Catch::Clara::Parser const & cli)
+{
+    return cli
+         | Catch::Clara::Opt(SNAP_CATCH2_NAMESPACE::g_verify_file_inheriance_path, "verify_file_inheritance_path")
+              ["--verify-file-inheritance"]
+              ("supply a path to the verify-file-inheritance executable used to test that file leaks are detected");
+}
+
+
+} // no name namespace
 
 
 int main(int argc, char * argv[])
@@ -47,6 +71,7 @@ int main(int argc, char * argv[])
             , argc
             , argv
             , []() { libexcept::set_collect_stack(libexcept::collect_stack_t::COLLECT_STACK_NO); }
+            , &add_command_line_options
         );
 }
 
