@@ -27,16 +27,42 @@
 #include    "catch_main.h"
 
 
-// snapdev
-//
-#include    <snapdev/join_strings.h>
-#include    <snapdev/tokenize_string.h>
-
-
 // C++
 //
 #include    <fstream>
 
+
+void tokenize(std::list<std::string> list, std::string const & p)
+{
+    char const * s(p.c_str());
+    while(*s != '\0')
+    {
+        char const * e(s);
+        while(*e != '\0' && *e != '/')
+        {
+            ++e;
+        }
+        if(s < e)
+        {
+            list.push_back(std::string(s, e - s));
+        }
+        s = e;
+    }
+}
+
+std::string join_strings(std::list<std::string> list, char sep)
+{
+    std::string result;
+    for(auto const & l : list)
+    {
+        if(!result.empty())
+        {
+            result += sep;
+        }
+        result += l;
+    }
+    return result;
+}
 
 
 CATCH_TEST_CASE("file_inheritance", "[file_inheritance]")
@@ -55,7 +81,7 @@ CATCH_TEST_CASE("file_inheritance", "[file_inheritance]")
         // allowing various levels on either side
         //
         std::list<std::string> cmd_seg;
-        snapdev::tokenize_string(cmd_seg, p, "/", true);
+        tokenize(cmd_seg, p);
 
         // in the normal testing, we have a full filename to the unittest
         // in the binary tree
@@ -64,7 +90,7 @@ CATCH_TEST_CASE("file_inheritance", "[file_inheritance]")
         //
         std::string const expected(SNAP_CATCH2_NAMESPACE::g_verify_file_inheriance_path + "/unittest");
         std::list<std::string> expected_seg;
-        snapdev::tokenize_string(expected_seg, expected, "/", true);
+        tokenize(expected_seg, expected);
 
         auto cmd_it(cmd_seg.begin());
         auto expected_it(expected_seg.begin());
@@ -101,8 +127,8 @@ CATCH_TEST_CASE("file_inheritance", "[file_inheritance]")
             std::list<std::string> rem(cmd_it, cmd_seg.end());
             if(!rem.empty())
             {
-                std::cerr << "error: cmd_it still has: "
-                    << snapdev::join_strings(rem, "/")
+                std::cerr << "error: cmd_it still has: /"
+                    << join_strings(rem, '/')
                     << " from "
                     << cmd
                     << '\n';
@@ -112,7 +138,7 @@ CATCH_TEST_CASE("file_inheritance", "[file_inheritance]")
             if(!rem.empty())
             {
                 std::cerr << "error: expected_it still has: "
-                    << snapdev::join_strings(rem, "/")
+                    << join_strings(rem, '/')
                     << " from "
                     << expected
                     << '\n';

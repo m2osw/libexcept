@@ -6,8 +6,7 @@ Build-Depends: cmake,
     doxygen,
     graphviz,
     snapcatch2 (>= 2.13.7.1~bionic),
-    snapcmakemodules (>= 1.0.35.3~bionic),
-    snapdev (>= 1.1.27.0~bionic)
+    snapcmakemodules (>= 1.0.35.3~bionic)
 Standards-Version: 3.9.4
 Section: libs
 Homepage: https://snapwebsites.org/
