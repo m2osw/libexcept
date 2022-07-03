@@ -25,6 +25,7 @@ project(libexcept)
 ## Include support modules
 ##
 find_package(SnapCMakeModules REQUIRED)
+find_package(SnapDev          REQUIRED)
 
 ## Get version from debian/changelog
 ##
