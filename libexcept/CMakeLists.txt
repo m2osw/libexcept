@@ -28,6 +28,7 @@ add_library(${PROJECT_NAME} SHARED
     demangle.cpp
     exception.cpp
     file_inheritance.cpp
+    report_signal.cpp
     stack_trace.cpp
     version.cpp
 )
@@ -54,6 +55,7 @@ install(
         demangle.h
         exception.h
         file_inheritance.h
+        report_signal.h
         stack_trace.h
         ${PROJECT_BINARY_DIR}/version.h
 

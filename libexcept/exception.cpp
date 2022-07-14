@@ -19,23 +19,24 @@
 
 // self
 //
-#include    "./exception.h"
+#include    "libexcept/exception.h"
 
-#include    "./demangle.h"
+#include    "libexcept/demangle.h"
 
 
-// C++ includes
+// C++
 //
 #include    <iostream>
 #include    <memory>
 #include    <vector>
 
 
-// C lib includes
+// C
 //
 #include    <execinfo.h>
 #include    <link.h>
 #include    <unistd.h>
+
 
 
 /** \file

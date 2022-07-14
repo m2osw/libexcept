@@ -17,12 +17,15 @@
 // with this program; if not, write to the Free Software Foundation, Inc.,
 // 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-#include "./demangle.h"
-
-// C++ includes
+// self
 //
-#include <cxxabi.h>
-#include <memory>
+#include    "libexcept/demangle.h"
+
+
+// C++
+//
+#include    <cxxabi.h>
+#include    <memory>
 
 
 /** \file

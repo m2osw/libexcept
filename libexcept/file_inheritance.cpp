@@ -19,10 +19,10 @@
 
 // self
 //
-#include    "./file_inheritance.h"
+#include    "libexcept/file_inheritance.h"
 
 
-// C++ includes
+// C++
 //
 #include    <fstream>
 #include    <iostream>
@@ -30,7 +30,7 @@
 #include    <memory>
 
 
-// C lib includes
+// C
 //
 #include    <dirent.h>
 #include    <string.h>
