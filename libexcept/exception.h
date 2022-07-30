@@ -139,6 +139,12 @@ public:
     public: name(std::string const & msg) : base(msg) {} }
 
 
+// a default logic error where I know there is a problem that needs to be
+// fixed so that way we can quickly find the location & read the comments
+//
+DECLARE_LOGIC_ERROR(fixme);
+
+
 }
 // namespace libexcept
 // vim: ts=4 sw=4 et
