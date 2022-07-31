@@ -47,6 +47,10 @@ void tokenize(std::list<std::string> list, std::string const & p)
             list.push_back(std::string(s, e - s));
         }
         s = e;
+        while(*s == '/')
+        {
+            ++s;
+        }
     }
 }
 
@@ -81,6 +85,7 @@ CATCH_TEST_CASE("file_inheritance", "[file_inheritance]")
         // allowing various levels on either side
         //
         std::list<std::string> cmd_seg;
+std::cerr << "--- break cmd_seg " << p << "\n";
         tokenize(cmd_seg, p);
 
         // in the normal testing, we have a full filename to the unittest
@@ -90,13 +95,18 @@ CATCH_TEST_CASE("file_inheritance", "[file_inheritance]")
         //
         std::string const expected(SNAP_CATCH2_NAMESPACE::g_verify_file_inheriance_path + "/unittest");
         std::list<std::string> expected_seg;
+std::cerr << "--- break epxected_seg " << expected << "\n";
         tokenize(expected_seg, expected);
 
+        // search for command to see whether we started as a coverage test
+        //
+std::cerr << "--- search cmd_seg " << p << "\n";
         auto cmd_it(cmd_seg.begin());
         auto expected_it(expected_seg.begin());
         while(cmd_it != cmd_seg.end()
            && expected_it != expected_seg.end())
         {
+std::cerr << "--- compare: " << *cmd_it << " v " << *expected_it << "\n";
             if(*cmd_it == *expected_it)
             {
                 ++cmd_it;
