@@ -38,6 +38,7 @@ include_directories(
 add_subdirectory(cmake)
 add_subdirectory(libexcept)
 add_subdirectory(tests)
+add_subdirectory(tools)
 add_subdirectory(doc)
 
 # vim: ts=4 sw=4 et

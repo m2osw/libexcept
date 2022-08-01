@@ -19,26 +19,6 @@
 
 
 ##
-## tool that verifies file inheritance
-##
-project(verify-file-inheritance)
-
-add_executable(${PROJECT_NAME}
-    verify_file_inheritance.cpp
-)
-
-target_include_directories(${PROJECT_NAME}
-    PUBLIC
-        ${CMAKE_BINARY_DIR}
-        ${CMAKE_SOURCE_DIR}
-)
-
-target_link_libraries(${PROJECT_NAME}
-    except
-)
-
-
-##
 ## libexcept unittest
 ##
 project(unittest)
