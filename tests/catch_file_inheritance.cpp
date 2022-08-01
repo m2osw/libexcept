@@ -85,7 +85,6 @@ CATCH_TEST_CASE("file_inheritance", "[file_inheritance]")
         // allowing various levels on either side
         //
         std::list<std::string> cmd_seg;
-std::cerr << "--- break cmd_seg " << p << "\n";
         tokenize(cmd_seg, p);
 
         // in the normal testing, we have a full filename to the unittest
@@ -95,18 +94,15 @@ std::cerr << "--- break cmd_seg " << p << "\n";
         //
         std::string const expected(SNAP_CATCH2_NAMESPACE::g_verify_file_inheriance_path + "/unittest");
         std::list<std::string> expected_seg;
-std::cerr << "--- break epxected_seg " << expected << "\n";
         tokenize(expected_seg, expected);
 
         // search for command to see whether we started as a coverage test
         //
-std::cerr << "--- search cmd_seg " << p << "\n";
         auto cmd_it(cmd_seg.begin());
         auto expected_it(expected_seg.begin());
         while(cmd_it != cmd_seg.end()
            && expected_it != expected_seg.end())
         {
-std::cerr << "--- compare: " << *cmd_it << " v " << *expected_it << "\n";
             if(*cmd_it == *expected_it)
             {
                 ++cmd_it;
@@ -161,9 +157,15 @@ std::cerr << "--- compare: " << *cmd_it << " v " << *expected_it << "\n";
     }
     CATCH_END_SECTION()
 
-    CATCH_START_SECTION("file_inheritance: verify that a process succeed in a clean environment")
+    CATCH_START_SECTION("file_inheritance: verify that a process succeeds in a clean environment")
     {
         int const r(system(path.c_str()));
+        std::cerr
+            << "--- execute system(\""
+            << path
+            << "\") == "
+            << r
+            << " ---\n";
         CATCH_REQUIRE(r == 0);
     }
     CATCH_END_SECTION()
