@@ -1,3 +1,9 @@
+libexcept (1.1.17.0~jammy) jammy; urgency=high
+
+  * Updated debian/compat to use latest.
+
+ -- Alexis Wilke <alexis@m2osw.com>  Fri, 03 Nov 2023 16:07:24 -0700
+
 libexcept (1.1.16.0~jammy) jammy; urgency=high
 
   * Added a "verify file inheritance" to detect when caller starts our process
