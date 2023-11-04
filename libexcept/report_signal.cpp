@@ -26,6 +26,7 @@
 
 // C++
 //
+#include    <cstdint>
 #include    <iostream>
 #include    <memory>
 
