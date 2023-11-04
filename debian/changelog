@@ -1,3 +1,10 @@
+libexcept (1.1.18.0~jammy) jammy; urgency=high
+
+  * Added a missing #include <cstdint>.
+  * Bumped copyright notice to 2013.
+
+ -- Alexis Wilke <alexis@m2osw.com>  Fri, 03 Nov 2023 18:00:20 -0700
+
 libexcept (1.1.17.0~jammy) jammy; urgency=high
 
   * Updated debian/compat to use latest.
