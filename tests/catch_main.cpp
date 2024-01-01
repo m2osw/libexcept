@@ -51,10 +51,9 @@ namespace
 {
 
 
-Catch::Clara::Parser add_command_line_options(Catch::Clara::Parser const & cli)
+void add_command_line_options(Catch::Clara::Parser & cli)
 {
-    return cli
-         | Catch::Clara::Opt(SNAP_CATCH2_NAMESPACE::g_verify_file_inheriance_path, "verify_file_inheritance_path")
+    cli |= Catch::Clara::Opt(SNAP_CATCH2_NAMESPACE::g_verify_file_inheriance_path, "verify_file_inheritance_path")
               ["--verify-file-inheritance"]
               ("supply a path to the verify-file-inheritance executable used to test that file leaks are detected");
 }
