@@ -3,9 +3,9 @@ Upstream-Name: libexcept
 Source: https://github.com/m2osw/libexcept
 
 Files: *
-Copyright: 2011-2023  Made to Order Software <contact@m2osw.com>
-           2011-2023  Alexis Wilke <alexis@m2osw.com>
-           2013-2023  R. Douglas Barbieri <doug@dooglio.net>
+Copyright: 2011-2024  Made to Order Software <contact@m2osw.com>
+           2011-2024  Alexis Wilke <alexis@m2osw.com>
+           2013-2024  R. Douglas Barbieri <doug@dooglio.net>
 License: GPL-2+
  This package is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
