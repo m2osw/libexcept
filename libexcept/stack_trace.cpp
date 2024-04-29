@@ -246,7 +246,7 @@ stack_trace_t collect_stack_trace_with_line_numbers(int stack_trace_depth)
                                             + std::to_string(getpid())
                                             + " "
                                             + addr);
-                            std::unique_ptr<FILE, decltype(&::pclose)> p(popen(addr2line.c_str(), "r"), &::pclose);
+                            std::unique_ptr<FILE, int(*)(FILE *)> p(popen(addr2line.c_str(), "r"), &::pclose);
                             std::string line;
                             for(;;)
                             {
