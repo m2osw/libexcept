@@ -29,6 +29,7 @@ add_library(${PROJECT_NAME} SHARED
     exception.cpp
     file_inheritance.cpp
     report_signal.cpp
+    scoped_signal_mask.cpp
     stack_trace.cpp
     version.cpp
 )
@@ -56,6 +57,7 @@ install(
         exception.h
         file_inheritance.h
         report_signal.h
+        scoped_signal_mask.h
         stack_trace.h
         ${PROJECT_BINARY_DIR}/version.h
 
