@@ -157,9 +157,9 @@ namespace
  * to collect or not collect the stack trace.
  *
  * At some point we may add an option to our command lines/configuration
- * files to tweak this flag on load. That way any of our daemon can
+ * files to tweak this flag on load. That way any of our daemons can
  * benefit by not having a stack trace in a production environment unless
- * requested. Rmember, though, that we use exceptions wisely so they really
+ * requested. Remember, though, that we use exceptions wisely so they really
  * only happens when something really bad is detected so it is fairly
  * safe to keep the collection of the stack trace turned on.
  */
