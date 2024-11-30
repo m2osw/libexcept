@@ -61,6 +61,8 @@ if(SnapCatch2_FOUND)
     AddUnitTestsTarget(
         PROJECT_NAME
             rununittests
+        PROJECT_TEST_ARGS
+            --verify-file-inheritance "${CMAKE_BINARY_DIR}/tools"
     )
 
 endif(SnapCatch2_FOUND)

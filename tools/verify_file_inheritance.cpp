@@ -17,12 +17,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-// libexcept
-//
-#include    "libexcept/file_inheritance.h"
-
-
-
 /** \file
  * \brief A tool which verifies file inheritance.
  *
@@ -30,15 +24,18 @@
  */
 
 
-#include <string>
-#include <iostream>
-#include <unistd.h>
+// libexcept
+//
+#include    <libexcept/file_inheritance.h>
+
+
 
 int main()
 {
     libexcept::verify_inherited_files();
     return 0;
 }
+
 
 
 // vim: ts=4 sw=4 et
