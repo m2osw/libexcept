@@ -70,7 +70,7 @@ public:
 
     parameter_t const &         get_parameters() const;
     std::string                 get_parameter(std::string const & name) const;
-    void                        set_parameter(std::string const & name, std::string const & value);
+    exception_base_t &          set_parameter(std::string const & name, std::string const & value);
 
     stack_trace_t const &       get_stack_trace() const { return f_stack_trace; }
 

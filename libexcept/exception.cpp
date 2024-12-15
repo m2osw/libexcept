@@ -375,15 +375,17 @@ std::string exception_base_t::get_parameter(std::string const & name) const
  *
  * \param[in] name  The name of the parameter. It cannot be empty.
  * \param[in] value  The value of this parameter.
+ *
+ * \return A reference to this exception.
  */
-void exception_base_t::set_parameter(std::string const & name, std::string const & value)
+exception_base_t & exception_base_t::set_parameter(std::string const & name, std::string const & value)
 {
-    if(name.empty())
+    if(!name.empty())
     {
-        return;
+        f_parameters[name] = value;
     }
 
-    f_parameters[name] = value;
+    return *this;
 }
 
 
