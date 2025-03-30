@@ -25,13 +25,14 @@ Description: Development package for the base exception handling for Snap! C++.
 Package: libexcept
 Section: libs
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+# the eu-addr2line is found in elfutils which is not installed by default
+Depends: elfutils, ${shlibs:Depends}, ${misc:Depends}
 Suggests: libexcept-doc
 Description: Base exception handling for Snap! C++.
- The libexcept library is used to handle the enhance the basic C++ exceptions
- by adding support for an automatic stack dump. This is particularly useful
- to find where the exception occurred in a large C++ project without having
- to search for hours.
+ The libexcept library is used to enhance the basic C++ exceptions by adding
+ support for an automatic stack dump. This is particularly useful to find
+ where the exception occurred in a large C++ project without having to search
+ for hours.
 
 Package: libexcept-doc
 Section: doc
