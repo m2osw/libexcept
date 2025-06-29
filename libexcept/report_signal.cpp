@@ -40,11 +40,11 @@
  * \brief Implementation of the init_report_signal() function.
  *
  * This file includes a function to setup a report handler on all the crashing
- * signals such as SEGV. This allows your software to report the stacktrace
+ * signals such as SEGV. This allows your software to report the stack trace
  * even in a release version.
  *
  * \note
- * If you can link against the eventdispatcher library, you should instead
+ * If you can link against the eventdispatcher library too, you should instead
  * consider using that library signal handlers.
  */
 
@@ -102,11 +102,11 @@ void report_signal(
  * your disposal which are much better than this simplistic function:
  *
  * \li signal -- a connection that can catch any signal using the signalfd()
- * function (i.e. the eventdispatcher can poll on it)
+ *               function (i.e. the eventdispatcher can poll on it)
  * \li signal_handler -- similar to this function, it capture signals and
- * reports them in the logger including a stack trace
+ *                       reports them in the logger including a stack trace
  * \li signal_child -- an extension of the signal connection which provides
- * additional data about the child that died
+ *                     additional data about the child that died
  *
  * \warning
  * This code is not thread safe.

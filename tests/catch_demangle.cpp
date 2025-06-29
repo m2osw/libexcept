@@ -22,13 +22,13 @@
 #include    "catch_main.h"
 
 
-// eventdispatcher lib
+// libexcept
 //
 #include    <libexcept/exception.h>
 #include    <libexcept/demangle.h>
 
 
-// C lib
+// C
 //
 //#include    <unistd.h>
 

@@ -57,7 +57,7 @@ namespace libexcept
  * error occurs, the function returns an empty string. Some processes do
  * not have a command line.
  *
- * If your program can include cppprocess (see eventdispatcher), then I
+ * If your program can include cppprocess (see eventdispatcher,) then I
  * suggest you use the cppprocess::process_info class instead. It is
  * much more powerful.
  *
@@ -75,6 +75,7 @@ std::string get_command_line(pid_t pid)
     std::getline(cmdline, line, '\0');
     return line;
 }
+
 
 /** \brief Check the list of files opened in this process.
  *

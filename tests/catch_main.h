@@ -1,6 +1,6 @@
 // Copyright (c) 2012-2024  Made to Order Software Corp.  All Rights Reserved
 //
-// https://snapwebsites.org/project/eventdispatcher
+// https://snapwebsites.org/project/libexcept
 // contact@m2osw.com
 //
 // This program is free software; you can redistribute it and/or modify
@@ -18,12 +18,12 @@
 // 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #pragma once
 
-// catch2 lib
+// catch2
 //
 #include    <catch2/snapcatch2.hpp>
 
 
-// C++ lib
+// C++
 //
 #include    <string>
 #include    <cstring>

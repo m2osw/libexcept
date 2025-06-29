@@ -22,7 +22,7 @@
 #include    "catch_main.h"
 
 
-// eventdispatcher lib
+// libexcept
 //
 #include    <libexcept/exception.h>
 
