@@ -1,3 +1,13 @@
+libexcept (1.1.19.0~bionic) bionic; urgency=high
+
+  * Depend on eu-elfutils for stack dumps.
+  * Changed set_parameter() return type.
+  * Added a signal mask used when starting threads.
+  * Applied fix to the catch2 tests (clara changed).
+  * Various clean ups.
+
+ -- Alexis Wilke <alexis@m2osw.com>  Fri, 10 Nov 2023 13:08:37 -0800
+
 libexcept (1.1.18.1~bionic) bionic; urgency=high
 
   * Bumped build version to rebuild on Launchpad.

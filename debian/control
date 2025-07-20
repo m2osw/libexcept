@@ -2,7 +2,7 @@ Source: libexcept
 Priority: extra
 Maintainer: R. Douglas Barbieri <doug@dooglio.net>
 Build-Depends: cmake,
-    debhelper,
+    debhelper-compat (= 13),
     doxygen,
     graphviz,
     snapcatch2 (>= 2.13.7.1~jammy),
