@@ -1,4 +1,4 @@
-libexcept (1.1.19.0~bionic) bionic; urgency=high
+libexcept (1.1.19.0~noble) noble; urgency=high
 
   * Depend on eu-elfutils for stack dumps.
   * Changed set_parameter() return type.
