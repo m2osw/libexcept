@@ -79,8 +79,8 @@ std::string get_command_line(pid_t pid)
 
 /** \brief Check the list of files opened in this process.
  *
- * This function reads the /proc/<pid>/fd directory. If it finds files other
- * than 0, 1, 2, then it generates an error.
+ * This function reads the /proc/\<pid>/fd directory. If it finds files
+ * other than 0, 1, 2, then it generates an error.
  *
  * In Debug mode, the error is fatal (it throws).
  *
