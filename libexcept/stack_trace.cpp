@@ -110,10 +110,13 @@ stack_trace_t collect_stack_trace(int stack_trace_depth)
         // save a copy of the system array in our class
         //
         std::unique_ptr<char *, decltype(&::free)> stack_string_list(backtrace_symbols(&array[0], size), &::free);
-        for(int idx(0); idx < size; ++idx)
+        if(stack_string_list != nullptr)
         {
-            char const * stack_string(stack_string_list.get()[idx]);
-            stack_trace.push_back(stack_string);
+            for(int idx(0); idx < size; ++idx)
+            {
+                char const * stack_string(stack_string_list.get()[idx]);
+                stack_trace.push_back(stack_string);
+            }
         }
     }
 
