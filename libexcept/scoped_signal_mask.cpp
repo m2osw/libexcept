@@ -70,7 +70,7 @@ constexpr int const g_incompatible_signals[] = {
 };
 
 
-bool g_defined = false;
+bool g_has_sanitizer_defined = false;
 bool g_has_sanitizer = false;
 
 
@@ -166,11 +166,11 @@ scoped_signal_mask::~scoped_signal_mask()
  *
  * \return true if the running process has the sanitizer linked in.
  */
-inline bool has_sanitizer()
+bool has_sanitizer()
 {
-    if(!g_defined)
+    if(!g_has_sanitizer_defined)
     {
-        g_defined = true;
+        g_has_sanitizer_defined = true;
         g_has_sanitizer = dlsym(RTLD_DEFAULT, "__lsan_enable") != nullptr;
     }
 
