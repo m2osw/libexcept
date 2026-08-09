@@ -1,3 +1,9 @@
+libexcept (1.1.20.1~noble) noble; urgency=high
+
+  * Bumped build version to rebuild on Launchpad.
+
+ -- Alexis Wilke <alexis@m2osw.com>  Sun, 09 Aug 2026 12:59:21 -0700
+
 libexcept (1.1.20.0~noble) noble; urgency=high
 
   * Changed the has_sanitizer() so it's not inline.
