@@ -1,3 +1,12 @@
+libexcept (1.1.20.0~noble) noble; urgency=high
+
+  * Changed the has_sanitizer() so it's not inline.
+  * backtrace_symbols() may return nullptr, take that in account.
+  * Added note about the -rdynamic requirement for better stack traces.
+  * Various fixes to the doxy file.
+
+ -- Alexis Wilke <alexis@m2osw.com>  Sat, 08 Aug 2026 20:46:02 -0700
+
 libexcept (1.1.19.0~noble) noble; urgency=high
 
   * Depend on eu-elfutils for stack dumps.
