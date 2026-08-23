@@ -1,3 +1,9 @@
+libexcept (1.1.21.0~noble) noble; urgency=high
+
+  * Fixed the callstack collection with line numbers.
+
+ -- Alexis Wilke <alexis@m2osw.com>  Sun, 23 Aug 2026 11:34:06 -0700
+
 libexcept (1.1.20.1~noble) noble; urgency=high
 
   * Bumped build version to rebuild on Launchpad.
