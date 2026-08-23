@@ -19,6 +19,31 @@
 
 project(except)
 
+# backtrace does not have a module that works well
+# and the following is probably an even cheaper replacement
+find_path(
+    LIBBACKTRACE_INCLUDE_DIR
+        backtrace.h
+
+    PATHS
+        ENV LIBEXCEPT_LIBBACKTRACE_INCLUDE_DIR
+        /usr/lib/gcc/x86_64-linux-gnu/*/include
+)
+
+find_library(
+    LIBBACKTRACE_LIBRARY
+        backtrace
+
+    PATHS
+        ENV LIBEXCEPT_LIBBACKTRACE_LIBRARY_DIR
+        /usr/lib/gcc/x86_64-linux-gnu/*
+)
+
+if(NOT LIBBACKTRACE_INCLUDE_DIR OR NOT LIBBACKTRACE_LIBRARY)
+    message("Includes: [${LIBBACKTRACE_INCLUDE_DIR}] and Libraries: [${LIBBACKTRACE_LIBRARY}]")
+    message(FATAL_ERROR "backtrace library not found.")
+endif()
+
 configure_file(
     version.h.in
     ${PROJECT_BINARY_DIR}/version.h
@@ -32,6 +57,15 @@ add_library(${PROJECT_NAME} SHARED
     scoped_signal_mask.cpp
     stack_trace.cpp
     version.cpp
+)
+
+target_include_directories(${PROJECT_NAME}
+    PUBLIC
+        ${LIBBACKTRACE_INCLUDE_DIR}
+)
+
+target_link_libraries(${PROJECT_NAME}
+    ${LIBBACKTRACE_LIBRARY}
 )
 
 set_target_properties(${PROJECT_NAME}

@@ -33,6 +33,7 @@
 
 // C
 //
+#include    <backtrace.h>
 #include    <execinfo.h>
 #include    <link.h>
 #include    <unistd.h>
@@ -58,19 +59,190 @@
 
 namespace libexcept
 {
+namespace
+{
 
+
+
+/** \brief The extended stack flag.
+ *
+ * When creating a stack trace, we skip various frames by default:
+ * the libexcept frames, because they are rather useless (assuming
+ * this library functions as expected) and the functions called before
+ * the main() function.
+ *
+ * You may change the behavior by calling the set_extended_stack() function.
+ *
+ * \note
+ * The stack depth also determines how many frames of stack you will get
+ * in your output. That is limited to STACK_TRACE_DEPTH (20) by default.
+ * Skipped frames generally do not count against that depth.
+ */
+bool        g_extended_stack        = false;
+
+
+/** \brief Capture errors while running backtrace_pcinfo().
+ *
+ * When trying to collect information about a function, we call the
+ * backtrace_pcinfo() function with this function as a callback function
+ * for errors. It generates an error message in std::cerr with the
+ * library's message and err number.
+ *
+ * \param[in] data  Our data pointer.
+ * \param[in] msg  The library's message.
+ * \param[in] err  The error number.
+ */
+void error_callback(void * data, char const * msg, int err)
+{
+    static_cast<void>(data);
+
+    std::cerr
+        << "libbacktrace error: "
+        << msg
+        << " ("
+        << err
+        << ")\n";
+}
+
+
+/** \brief Retrieve a pointer to the backtrace state.
+ *
+ * To use the backtrace_pcinfo() function, we need to have a backtrace
+ * state. Function safely allocate that state the first time it gets
+ * called. We automatically create a thread safe version of the state.
+ *
+ * \note
+ * This state leaks.
+ *
+ * \return A pointer to the backtrace_state object.
+ */
+backtrace_state * get_backtrace_state()
+{
+    static backtrace_state * g_backtrace_state = backtrace_create_state(
+              nullptr
+            , 1
+            , error_callback
+            , nullptr);
+
+    return g_backtrace_state;
+}
+
+
+/** \brief Structure used to collect symbol information.
+ *
+ * The backtrace library calls a callback which collects the data that
+ * it has available: PC, filename, function, line number.
+ *
+ * Since it may need more than one entry (i.e. for example, an inlined
+ * function will return itself and the caller's data,) we also offer
+ * a list of symbol_info.
+ */
+struct symbol_info
+{
+    typedef std::list<symbol_info>  list_t;
+
+    uintptr_t       f_pc        = 0;
+    std::string     f_filename  = std::string();
+    std::string     f_function  = std::string();
+    int             f_line      = 0;
+};
+
+
+/** \brief Call back with backtrace data.
+ *
+ * This function gets called by the backtrace_pcinfo() function each time
+ * it finds a match.
+ *
+ * The function is used to collect the filename, line number and function
+ * name of each hit.
+ *
+ * \note
+ * There can be multiple hits because you used macros, templates, functions
+ * get inlined, and a few other cases.
+ *
+ * \param[in] data  A pointer to our structure.
+ * \param[in] pc  The concerned pointer counter (memory address).
+ * \param[in] filename  The name of the file with the source code.
+ * \param[in] line  The line number where the call happened.
+ * \param[in] function  The name of the function being called.
+ *
+ * \return Always 0 so we can capture all the possible names.
+ */
+int backtrace_callback(
+      void * data
+    , uintptr_t pc
+    , char const * filename
+    , int line
+    , char const * function)
+{
+    symbol_info::list_t * info_list(static_cast<symbol_info::list_t *>(data));
+
+    symbol_info info{
+        .f_pc = pc,
+        .f_filename = filename == nullptr ? std::string() : filename,
+        .f_function = function == nullptr ? std::string() : demangle_cpp_name(function),
+        .f_line = line
+    };
+
+    info_list->push_back(info);
+
+    return 0;
+}
+
+
+
+}
+// no name namespace
+
+
+
+/** \brief Set the extended stack flag status.
+ *
+ * The collect_stack_trace_with_line_numbers() function has the ability
+ * to skip some frames, especially the libexcept specific stack entries
+ * and anything before main() gets called. The library is actually setup
+ * to do just that on initialization.
+ *
+ * This function lets you change that before. Set the \p extended_stack
+ * parameter to true in order to get the libexcept functions and the
+ * functions before main().
+ *
+ * \param[in] extended_stack  Set to true to get the extended stack trace.
+ */
+void set_extended_stack(bool extended_stack)
+{
+    g_extended_stack = extended_stack;
+}
+
+
+/** \brief Get the extended stack flag status.
+ *
+ * The collect_stack_trace_with_line_numbers() function has the ability
+ * to skip some frames, especially the libexcept specific stack entries
+ * and anything before main() gets called.
+ *
+ * This function tells you whether those extra functions will show
+ * up (true) or not (false).
+ *
+ * \return Whether the extended stack trace is returned or not.
+ */
+bool get_extended_stack()
+{
+    return g_extended_stack;
+}
 
 
 /** \brief Collect the raw stack trace in a list of strings.
  *
- * This function collects the current stack as a trace to log later.
+ * This function collects the current stack as a trace to print
+ * out or log later.
  *
- * By default, the stack trace shows you a number of lines equal
- * to STACK_TRACE_DEPTH (which is 20 at time of writing). You may
- * specify another number to get more or less lines. Note that a
+ * By default, the stack trace shows you a number of lines equal to
+ * STACK_TRACE_DEPTH (which by default is 20 at time of writing). You
+ * may specify another number to get more or less lines. Note that a
  * really large number will generally show you the entire stack since
  * a number larger than the number of function pointers on the stack
- * will return the entire stack.
+ * returns the entire stack.
  *
  * If you pass 0 as \p stack_trace_depth then the function returns an
  * empty list of strings.
@@ -81,17 +253,18 @@ namespace libexcept
  *
  * \note
  * This function is global so we can use it anywhere we'd like to get
- * a stack trace and not just in exceptions. Very practical in C++
- * to get a stack trace directly in a list of strings.
+ * a stack trace and not just in exceptions. Very practical * to get a
+ * stack trace from anywhere.
  *
  * \attention
  * Use the collect_stack_with_line_numbers() to get demangled function
  * names and line numbers. Note that this other function is considered
- * \em very slow so do not use it in a standard exception. Consider
+ * to be slower, so do not use it in a standard exception. Consider
  * using that other function only when debugging.
  *
  * \param[in] stack_trace_depth  The number of lines to capture in our
  *                               stack trace.
+ *
  * \return The vector of strings with the stack trace.
  *
  * \sa collect_stack_trace_with_line_numbers()
@@ -129,15 +302,22 @@ stack_trace_t collect_stack_trace(int stack_trace_depth)
  * This function collects the current stack as a trace including
  * the line numbers and demangled function names as available.
  *
- * The function also works like the collect_stack_trace() function.
+ * The function works like the collect_stack_trace() function.
+ *
+ * Note that by default exception do not use this function since it is
+ * slower. To force the system to do so, make sure to call the following:
+ *
+ * \code
+ *     // request complete stack info on exception
+ *     //
+ *     libexcept::set_collect_stack(libexcept::collect_stack_t::COLLECT_STACK_COMPLETE);
+ * \endcode
  *
  * \note
- * The function makes use of the `addr2line` and `c++filt` command
- * line tools to convert the information. It is likely that if it
- * fails it means your system does not have those two tools installed.
- * Also, the addr2line requires the debug information in the libraries
- * and executables. Without that information, you will still get invalid
- * answers in your stacktrace.
+ * The function now uses the libbacktrace.a library. This means all the
+ * backtrace work happens within our process and except for the very first
+ * call, it is extremely fast. Note that for best results, you need to
+ * compiled most everything with debug information.
  *
  * See also the libbacktrace library:
  * https://gcc.gnu.org/viewcvs/gcc/trunk/libbacktrace/
@@ -148,6 +328,7 @@ stack_trace_t collect_stack_trace(int stack_trace_depth)
  *
  * \sa collect_stack_trace()
  * \sa set_collect_stack()
+ * \sa set_extended_stack()
  */
 stack_trace_t collect_stack_trace_with_line_numbers(int stack_trace_depth)
 {
@@ -156,154 +337,70 @@ stack_trace_t collect_stack_trace_with_line_numbers(int stack_trace_depth)
     if(stack_trace_depth > 0)
     {
         std::vector<void *> array;
-        array.resize(stack_trace_depth);
+        // the libexcept adds 3 frames, hence that +3
+        array.resize(std::max(stack_trace_depth + 3, 1'000));
         int const size(backtrace(&array[0], stack_trace_depth));
-
-        // save a copy of the system array in our class
-        //
-        std::unique_ptr<char *, decltype(&::free)> stack_string_list(backtrace_symbols(&array[0], size), &::free);
+        backtrace_state * state(get_backtrace_state());
         for(int idx(0); idx < size; ++idx)
         {
-            char const * raw_stack_string(stack_string_list.get()[idx]);
-
-            // the raw stack string is expected to be composed of:
-            //   <filename>(<function-name>+<offset>) [<addr>]
-            //
-            // we extract all those elements and use addr2line and c++filt
-            // to convert that data to a usable function name and line number
-            //
-            std::string filename;
-            std::string raw_function_name;
-            std::string addr;
-            std::string result;
-
-            // go to end of filename
-            //
-            char const * s(raw_stack_string);
-            char const * start(s);
-            while(*s != '('
-               && *s != '\0')
+            if(state != nullptr)
             {
-                ++s;
-            }
-            if(*s == '(')
-            {
-                filename = std::string(start, s - start);
-                ++s;
-
-                start = s;
-                while(*s != '+'
-                   && *s != ')'
-                   && *s != '\0')
+                symbol_info::list_t info_list;
+                backtrace_pcinfo(
+                      state
+                    , reinterpret_cast<uintptr_t>(array[idx])
+                    , backtrace_callback
+                    , error_callback
+                    , &info_list);
+                bool found(false);
+                for(auto & info : info_list)
                 {
-                    ++s;
-                }
-
-                if(*s == '+')
-                {
-                    raw_function_name = std::string(start, s - start);
-                    ++s;
-
-                    // skip the offset
-                    //
-                    while(*s != ')'
-                       && *s != '\0')
+                    if(!info.f_filename.empty())
                     {
-                        ++s;
-                    }
-                }
-                //else if(*s == ')') {} -- no function name
-
-                if(*s == ')'
-                && s[1] == ' '
-                && s[2] == '['
-                && s[3] == '0'
-                && s[4] == 'x')
-                {
-                    s += 5;
-
-                    start = s;
-                    while(*s != ']'
-                       && *s != '\0')
-                    {
-                        ++s;
-                    }
-
-                    if(*s == ']')
-                    {
-                        addr = std::string(start, s - start);
-
-                        result.clear();
-
-                        // here we have our info, use it to get sane data
-                        //
-                        // TODO: look into whether we could rewrite the
-                        // eu-addr2line tool in C++ to avoid having to
-                        // run it (because that would be faster)
-                        //
-                        // I first used the "... -e <filename> ..." option
-                        // but with the --pid=..., it ought to be faster.
-                        //
+                        found = true;
+                        if(!g_extended_stack
+                        && info.f_function.starts_with("libexcept::"))
                         {
-                            std::string addr2line("eu-addr2line --pid="
-                                            + std::to_string(getpid())
-                                            + " "
-                                            + addr);
-                            std::unique_ptr<FILE, int(*)(FILE *)> p(popen(addr2line.c_str(), "r"), &::pclose);
-                            std::string line;
-                            for(;;)
+                            // don't include the libexcept::... frames; it's
+                            // always the same and not really useful
+                            //
+                            continue;
+                        }
+                        if(info.f_function == "main")
+                        {
+                            if(!g_extended_stack)
                             {
-                                int const c(fgetc(p.get()));
-                                if(c == EOF)
-                                {
-                                    break;
-                                }
-                                if(c != '\n')
-                                {
-                                    line += c;
-                                }
-                            }
-                            if(line == "??:0")
-                            {
-                                // this means addr2line failed to find the
-                                // debug info in your executable/.so
-                                // we fallback to the default which may help
-                                // if you have a version with debug info
+                                // done after that one
                                 //
-                                result += filename
-                                        + "["
-                                        + addr
-                                        + "]";
+                                idx = size;
                             }
-                            else
-                            {
-                                result = line;
-                            }
-                        }
 
-                        if(!raw_function_name.empty())
-                        {
-                            result += " in ";
-                            result += demangle_cpp_name(raw_function_name.c_str());
+                            // this is likely correct, although it could include
+                            // the environment and that won't show here
+                            //
+                            info.f_function = "main(int, char *[])";
                         }
-                        else
-                        {
-                            result += " <no function name>";
-                        }
+                        std::string result(info.f_filename);
+                        result += ':';
+                        result += std::to_string(info.f_line);
+                        result += " in ";
+                        result += info.f_function;
+                        stack_trace.push_back(result);
                     }
+                }
+                if(found)
+                {
+                    continue;
                 }
             }
 
-            if(result.empty())
+            // use ugly fallback; in most cases those are for system
+            // libraries that do not have symbols available
+            //
+            std::unique_ptr<char *, decltype(&::free)> stack_string_list(backtrace_symbols(&array[idx], 1), &::free);
+            if(stack_string_list.get() != nullptr)
             {
-                // use the raw line as a fallback if we could not parse it
-                // correctly or a conversion somehow fails...
-                //
-                stack_trace.push_back(std::string(raw_stack_string));   // LCOV_EXCL_LINE
-            }
-            else
-            {
-                stack_trace.push_back(result);
+                stack_trace.push_back(stack_string_list.get()[0]);
             }
         }
     }

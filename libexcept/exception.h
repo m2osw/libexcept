@@ -50,7 +50,7 @@ enum class collect_stack_t
 {
     COLLECT_STACK_NO,           // no stack trace for exceptions
     COLLECT_STACK_YES,          // plain stack trace (fast)
-    COLLECT_STACK_COMPLETE,     // include filenames & line numbers (slow)
+    COLLECT_STACK_COMPLETE,     // include filenames & line numbers (slower)
 };
 
 

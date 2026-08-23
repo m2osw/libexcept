@@ -40,6 +40,9 @@ constexpr int const             STACK_TRACE_DEPTH = 20;
 
 typedef std::list<std::string>  stack_trace_t;
 
+void                            set_extended_stack(bool extended_stack);
+bool                            get_extended_stack();
+
 stack_trace_t                   collect_stack_trace(int const stack_trace_depth
                                                         = STACK_TRACE_DEPTH);
 

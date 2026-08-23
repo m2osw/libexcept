@@ -392,7 +392,7 @@ exception_base_t & exception_base_t::set_parameter(std::string const & name, std
 /** \fn exception_base_t::get_stack_trace()
  * \brief Retrieve the stack trace.
  *
- * This function retreives a reference to the vector of strings representing
+ * This function retrieves a reference to the vector of strings representing
  * the stack trace at the time the exception was raised.
  */
 

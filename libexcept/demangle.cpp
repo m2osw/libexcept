@@ -102,7 +102,7 @@ std::string demangle_cpp_name(char const * type_id_name)
         std::free
     };
 
-    return status == 0
+    return status == 0 && res.get() != nullptr
                 ? res.get()
                 : type_id_name;
 #else
