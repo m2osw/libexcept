@@ -23,6 +23,7 @@ do
 		shift
 		TYPE="Sanitize"
 		;;
+
 	esac
 done
 
